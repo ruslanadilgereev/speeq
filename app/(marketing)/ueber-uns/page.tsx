@@ -11,11 +11,11 @@ import Link from 'next/link';
 export default function UeberUnsPage() {
   return (
     <div className="bg-[#0a0a0b] min-h-screen">
-      {/* Background Effects */}
+      {/* Background Effects - drifting orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-violet-500/20 rounded-full blur-[128px]" />
-        <div className="absolute top-3/4 -right-32 w-96 h-96 bg-fuchsia-500/15 rounded-full blur-[128px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-500/5 rounded-full blur-[150px]" />
+        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-violet-500/20 rounded-full blur-[128px] animate-drift-1" />
+        <div className="absolute top-3/4 -right-32 w-96 h-96 bg-fuchsia-500/15 rounded-full blur-[128px] animate-drift-2" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-500/5 rounded-full blur-[150px] animate-drift-3" />
       </div>
 
       {/* Hero */}

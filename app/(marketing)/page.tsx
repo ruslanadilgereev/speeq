@@ -15,10 +15,10 @@ export default function HomePage() {
     <div className="bg-[#0a0a0b]">
       {/* Hero Section — Dark with glow */}
       <section className="relative min-h-[100vh] flex items-center overflow-hidden">
-        {/* Gradient orbs */}
-        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-violet-600/20 rounded-full blur-[120px] animate-pulse-slow" />
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-fuchsia-600/10 rounded-full blur-[80px]" />
+        {/* Gradient orbs - drifting animations */}
+        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-violet-600/20 rounded-full blur-[120px] animate-drift-1" />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[100px] animate-drift-2" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-fuchsia-600/10 rounded-full blur-[80px] animate-drift-3" />
         
         {/* Grid pattern */}
         <div 
@@ -270,8 +270,8 @@ export default function HomePage() {
 
       {/* CTA */}
       <section className="relative py-32 bg-[#0a0a0b] overflow-hidden">
-        {/* Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-600/20 rounded-full blur-[150px]" />
+        {/* Glow - drifting */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-600/20 rounded-full blur-[150px] animate-drift-3" />
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <h2 className="text-4xl lg:text-6xl font-bold text-white tracking-tight">

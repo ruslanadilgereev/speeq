@@ -23,9 +23,9 @@ export default function SicherheitPage() {
     <div className="bg-[#0a0a0b]">
       {/* Hero */}
       <section className="relative min-h-[70vh] flex items-center overflow-hidden pt-24 pb-16 lg:pt-32 lg:pb-24">
-        {/* Gradient orbs */}
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-emerald-600/20 rounded-full blur-[120px] animate-pulse-slow" />
-        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-teal-600/15 rounded-full blur-[100px]" />
+        {/* Gradient orbs - drifting */}
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-emerald-600/20 rounded-full blur-[120px] animate-drift-1" />
+        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-teal-600/15 rounded-full blur-[100px] animate-drift-2" />
         
         {/* Grid pattern */}
         <div 

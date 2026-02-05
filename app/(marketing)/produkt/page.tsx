@@ -31,9 +31,9 @@ export default function ProduktPage() {
     <div className="bg-[#0a0a0b]">
       {/* Hero */}
       <section className="relative min-h-[70vh] flex items-center overflow-hidden pt-24 pb-16 lg:pt-32 lg:pb-24">
-        {/* Gradient orbs */}
-        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-violet-600/20 rounded-full blur-[120px] animate-pulse-slow" />
-        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-fuchsia-600/15 rounded-full blur-[100px]" />
+        {/* Gradient orbs - drifting */}
+        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-violet-600/20 rounded-full blur-[120px] animate-drift-1" />
+        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-fuchsia-600/15 rounded-full blur-[100px] animate-drift-2" />
         
         {/* Grid pattern */}
         <div 
@@ -191,8 +191,8 @@ export default function ProduktPage() {
 
       {/* Device Compatibility */}
       <section className="relative py-32 bg-[#0f0f11] overflow-hidden">
-        {/* Glow */}
-        <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-violet-600/10 rounded-full blur-[100px]" />
+        {/* Glow - drifting */}
+        <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-violet-600/10 rounded-full blur-[100px] animate-drift-2" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -275,8 +275,8 @@ export default function ProduktPage() {
 
       {/* CTA */}
       <section className="relative py-32 bg-[#0a0a0b] overflow-hidden">
-        {/* Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-600/20 rounded-full blur-[150px]" />
+        {/* Glow - drifting */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-600/20 rounded-full blur-[150px] animate-drift-1" />
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <h2 className="text-4xl lg:text-6xl font-bold text-white tracking-tight">

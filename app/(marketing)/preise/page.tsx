@@ -24,9 +24,9 @@ export default function PreisePage() {
     <div className="bg-[#0a0a0b] min-h-screen">
       {/* Hero */}
       <section className="relative pt-32 pb-20 overflow-hidden">
-        {/* Gradient orbs */}
-        <div className="absolute top-20 left-1/3 w-[600px] h-[600px] bg-violet-600/15 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-fuchsia-600/10 rounded-full blur-[100px]" />
+        {/* Gradient orbs - drifting */}
+        <div className="absolute top-20 left-1/3 w-[600px] h-[600px] bg-violet-600/15 rounded-full blur-[120px] animate-drift-1" />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-fuchsia-600/10 rounded-full blur-[100px] animate-drift-2" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
@@ -251,9 +251,9 @@ export default function PreisePage() {
 
       {/* CTA */}
       <section className="py-32 relative overflow-hidden">
-        {/* Gradient orb */}
+        {/* Gradient orb - drifting */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-[600px] h-[600px] bg-violet-600/20 rounded-full blur-[120px]" />
+          <div className="w-[600px] h-[600px] bg-violet-600/20 rounded-full blur-[120px] animate-drift-3" />
         </div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 text-center">
