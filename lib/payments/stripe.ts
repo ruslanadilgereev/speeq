@@ -7,9 +7,31 @@ import {
   updateTeamSubscription
 } from '@/lib/db/queries';
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-08-27.basil'
-});
+// Lazy-load Stripe client to avoid build-time errors
+let stripeClient: Stripe | null = null;
+
+function getStripeClient(): Stripe {
+  if (!stripeClient) {
+    const key = process.env.STRIPE_SECRET_KEY;
+    if (!key || key === 'sk_test_placeholder') {
+      throw new Error('Stripe is not configured. Please add a valid STRIPE_SECRET_KEY.');
+    }
+    stripeClient = new Stripe(key, {
+      apiVersion: '2025-08-27.basil'
+    });
+  }
+  return stripeClient;
+}
+
+// For backward compatibility
+export const stripe = {
+  get checkout() { return getStripeClient().checkout; },
+  get customers() { return getStripeClient().customers; },
+  get subscriptions() { return getStripeClient().subscriptions; },
+  get prices() { return getStripeClient().prices; },
+  get products() { return getStripeClient().products; },
+  get billingPortal() { return getStripeClient().billingPortal; },
+} as unknown as Stripe;
 
 export async function createCheckoutSession({
   team,
