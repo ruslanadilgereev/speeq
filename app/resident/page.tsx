@@ -88,10 +88,7 @@ export default function ResidentPage() {
             {/* Main Help Button - Very Large, Obvious */}
             <button
               onClick={handleHelpButton}
-              className="w-64 h-64 rounded-full bg-red-600 hover:bg-red-500 active:bg-red-700 
-                         shadow-2xl shadow-red-900/50 transition-all duration-200
-                         flex flex-col items-center justify-center gap-4
-                         border-4 border-red-400 animate-pulse-slow"
+              className="w-64 h-64 rounded-full bg-red-600 hover:bg-red-500 active:bg-red-700 shadow-2xl shadow-red-900/50 transition-all duration-200 flex flex-col items-center justify-center gap-4 border-4 border-red-400"
               aria-label="Hilfe rufen"
             >
               <Mic className="w-20 h-20" />
@@ -134,9 +131,7 @@ export default function ResidentPage() {
         {/* Listening State */}
         {status === 'listening' && (
           <div className="text-center space-y-8">
-            <div className="w-48 h-48 rounded-full bg-green-600 mx-auto
-                          flex items-center justify-center animate-pulse
-                          border-4 border-green-400 shadow-2xl shadow-green-900/50">
+            <div className="w-48 h-48 rounded-full bg-green-600 mx-auto flex items-center justify-center animate-pulse border-4 border-green-400 shadow-2xl shadow-green-900/50">
               <Mic className="w-24 h-24" />
             </div>
             <div>
@@ -155,9 +150,7 @@ export default function ResidentPage() {
         {/* Processing State */}
         {status === 'processing' && (
           <div className="text-center space-y-8">
-            <div className="w-48 h-48 rounded-full bg-blue-600 mx-auto
-                          flex items-center justify-center
-                          border-4 border-blue-400 shadow-2xl">
+            <div className="w-48 h-48 rounded-full bg-blue-600 mx-auto flex items-center justify-center border-4 border-blue-400 shadow-2xl">
               <Loader2 className="w-24 h-24 animate-spin" />
             </div>
             <div>
@@ -170,9 +163,7 @@ export default function ResidentPage() {
         {/* Help Coming State */}
         {status === 'help_coming' && (
           <div className="text-center space-y-8 max-w-md">
-            <div className="w-48 h-48 rounded-full bg-green-600 mx-auto
-                          flex items-center justify-center
-                          border-4 border-green-400 shadow-2xl shadow-green-900/50">
+            <div className="w-48 h-48 rounded-full bg-green-600 mx-auto flex items-center justify-center border-4 border-green-400 shadow-2xl shadow-green-900/50">
               <CheckCircle className="w-24 h-24" />
             </div>
             <div>
@@ -202,16 +193,6 @@ export default function ResidentPage() {
         </button>
       </footer>
 
-      {/* Custom Styles */}
-      <style jsx>{`
-        @keyframes pulse-slow {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.02); }
-        }
-        .animate-pulse-slow {
-          animation: pulse-slow 2s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 }
@@ -228,9 +209,7 @@ function QuickButton({
   return (
     <button
       onClick={onClick}
-      className="h-24 bg-blue-800 hover:bg-blue-700 active:bg-blue-900 
-                 rounded-2xl flex flex-col items-center justify-center gap-2
-                 border-2 border-blue-600 transition-colors"
+      className="h-24 bg-blue-800 hover:bg-blue-700 active:bg-blue-900 rounded-2xl flex flex-col items-center justify-center gap-2 border-2 border-blue-600 transition-colors"
     >
       {icon}
       <span className="text-lg font-medium">{label}</span>
