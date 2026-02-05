@@ -3,62 +3,18 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Shield, Clock, Brain, Users, CheckCircle, Phone, Sparkles, Activity, Zap, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * PflegeAI Landing Page
  * Aesthetic: Clinical Precision — Premium healthcare B2B
- * NO generic blue gradients. YES distinctive, memorable design.
  */
 
 export default function HomePage() {
   return (
-    <main className="bg-[#fafbfc] min-h-screen overflow-hidden">
-      {/* Subtle grid pattern overlay */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.015]" 
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }}
-      />
-
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#fafbfc]/80 backdrop-blur-xl border-b border-slate-200/50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="relative">
-                <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-teal-500/25 group-hover:shadow-teal-500/40 transition-shadow">
-                  <Activity className="h-5 w-5 text-white" />
-                </div>
-                <div className="absolute -top-1 -right-1 h-3 w-3 bg-emerald-400 rounded-full border-2 border-[#fafbfc] animate-pulse" />
-              </div>
-              <span className="text-xl font-bold text-slate-900 tracking-tight">
-                Pflege<span className="text-teal-600">AI</span>
-              </span>
-            </Link>
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">Funktionen</a>
-              <a href="#security" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">Sicherheit</a>
-              <Link href="/staff" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">Dashboard</Link>
-            </div>
-            <div className="flex items-center gap-3">
-              <Link href="/sign-in">
-                <Button variant="ghost" size="sm" className="text-slate-600 hover:text-slate-900">
-                  Anmelden
-                </Button>
-              </Link>
-              <Link href="/resident">
-                <Button size="sm" className="bg-slate-900 hover:bg-slate-800 text-white rounded-full px-5 shadow-lg shadow-slate-900/10">
-                  Demo starten
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-
+    <>
       {/* Hero Section */}
-      <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32">
+      <section className="relative pt-16 pb-24 lg:pt-24 lg:pb-32">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             {/* Left: Copy */}
@@ -233,6 +189,15 @@ export default function HomePage() {
                 <SecurityItem icon={<CheckCircle />} title="Deutsche Server" description="Ihre Daten verlassen niemals die Bundesrepublik Deutschland." />
                 <SecurityItem icon={<Zap />} title="Ende-zu-Ende-Verschlüsselung" description="Kommunikation ist vollständig verschlüsselt, auch für uns unlesbar." />
               </div>
+              
+              <div className="mt-10">
+                <Link href="/sicherheit">
+                  <Button variant="outline" className="text-white border-slate-600 hover:bg-slate-800">
+                    Mehr zur Sicherheit
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
             </div>
             
             <div className="relative flex justify-center lg:justify-end">
@@ -276,9 +241,9 @@ export default function HomePage() {
                 Demo vereinbaren
               </Button>
             </Link>
-            <Link href="/staff">
+            <Link href="/preise">
               <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg px-8 py-6 rounded-2xl border-slate-300 hover:border-slate-400 hover:bg-slate-50 transition-all group">
-                Dashboard testen
+                Preise ansehen
                 <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
@@ -289,31 +254,7 @@ export default function HomePage() {
           </p>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-slate-950 text-slate-400 py-16">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center">
-                <Activity className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-white">
-                Pflege<span className="text-teal-400">AI</span>
-              </span>
-            </div>
-            <div className="flex gap-8 text-sm">
-              <a href="#" className="hover:text-white transition-colors">Datenschutz</a>
-              <a href="#" className="hover:text-white transition-colors">Impressum</a>
-              <a href="mailto:kontakt@pflegeai.de" className="hover:text-white transition-colors">Kontakt</a>
-            </div>
-            <div className="text-sm">
-              © {new Date().getFullYear()} PflegeAI GmbH
-            </div>
-          </div>
-        </div>
-      </footer>
-    </main>
+    </>
   );
 }
 
