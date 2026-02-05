@@ -30,67 +30,70 @@ export default function HomePage() {
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-24">
-          <div className="max-w-4xl">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8 animate-fade-in">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-500"></span>
-              </span>
-              <span className="text-sm text-zinc-300">Pilot-Programm gestartet</span>
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left column - Text content */}
+            <div className="max-w-xl">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8 animate-fade-in">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-500"></span>
+                </span>
+                <span className="text-sm text-zinc-300">Pilot-Programm gestartet</span>
+              </div>
+
+              {/* Headline */}
+              <h1 className="text-5xl sm:text-6xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[0.95] animate-fade-in-up">
+                <span className="text-white">Pflege,</span>
+                <br />
+                <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-violet-400 bg-clip-text text-transparent animate-gradient">
+                  intelligent.
+                </span>
+              </h1>
+
+              {/* Subheadline */}
+              <p className="mt-8 text-xl sm:text-2xl text-zinc-400 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                KI-Sprachassistenz, die Pflegeheim-Anfragen versteht, priorisiert und zuweist. 
+                Weniger Chaos, mehr Zeit für Menschen.
+              </p>
+
+              {/* CTAs */}
+              <div className="mt-12 flex flex-col sm:flex-row gap-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                <Link href="mailto:kontakt@pflegeai.de?subject=Pilot-Programm">
+                  <Button size="lg" className="w-full sm:w-auto bg-white text-black hover:bg-zinc-200 text-base px-8 py-6 rounded-full font-semibold group transition-all hover:scale-[1.02]">
+                    Pilot-Partner werden
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
+                <Link href="/resident">
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto text-white border-white/20 hover:bg-white/10 hover:border-white/30 text-base px-8 py-6 rounded-full group transition-all">
+                    <Play className="mr-2 h-4 w-4" />
+                    Demo ansehen
+                  </Button>
+                </Link>
+              </div>
+
+              {/* Trust signals */}
+              <div className="mt-16 flex flex-wrap items-center gap-x-8 gap-y-4 text-sm text-zinc-500 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+                <div className="flex items-center gap-2">
+                  <Shield className="h-4 w-4 text-zinc-400" />
+                  <span>DSGVO-konform</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-zinc-400">🇩🇪</span>
+                  <span>Gehostet in Deutschland</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Zap className="h-4 w-4 text-zinc-400" />
+                  <span>&lt;2s Antwortzeit</span>
+                </div>
+              </div>
             </div>
 
-            {/* Headline */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[0.95] animate-fade-in-up">
-              <span className="text-white">Pflege,</span>
-              <br />
-              <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-violet-400 bg-clip-text text-transparent animate-gradient">
-                intelligent.
-              </span>
-            </h1>
-
-            {/* Subheadline */}
-            <p className="mt-8 text-xl sm:text-2xl text-zinc-400 leading-relaxed max-w-2xl animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-              KI-Sprachassistenz, die Pflegeheim-Anfragen versteht, priorisiert und zuweist. 
-              Weniger Chaos, mehr Zeit für Menschen.
-            </p>
-
-            {/* CTAs */}
-            <div className="mt-12 flex flex-col sm:flex-row gap-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <Link href="mailto:kontakt@pflegeai.de?subject=Pilot-Programm">
-                <Button size="lg" className="w-full sm:w-auto bg-white text-black hover:bg-zinc-200 text-base px-8 py-6 rounded-full font-semibold group transition-all hover:scale-[1.02]">
-                  Pilot-Partner werden
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-              <Link href="/resident">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto text-white border-white/20 hover:bg-white/10 hover:border-white/30 text-base px-8 py-6 rounded-full group transition-all">
-                  <Play className="mr-2 h-4 w-4" />
-                  Demo ansehen
-                </Button>
-              </Link>
+            {/* Right column - Product Visual */}
+            <div className="animate-fade-in-up lg:pl-8" style={{ animationDelay: '0.4s' }}>
+              <ProductMockup />
             </div>
-
-            {/* Trust signals */}
-            <div className="mt-16 flex flex-wrap items-center gap-x-8 gap-y-4 text-sm text-zinc-500 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-              <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4 text-zinc-400" />
-                <span>DSGVO-konform</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-zinc-400">🇩🇪</span>
-                <span>Gehostet in Deutschland</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Zap className="h-4 w-4 text-zinc-400" />
-                <span>&lt;2s Antwortzeit</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Product Visual */}
-          <div className="mt-20 lg:mt-0 lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[45%] animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <ProductMockup />
           </div>
         </div>
       </section>
