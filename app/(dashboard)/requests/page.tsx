@@ -21,8 +21,25 @@ import {
   Activity,
 } from 'lucide-react';
 
+// Types
+type RequestStatus = 'pending' | 'assigned' | 'resolved';
+
+interface Request {
+  id: string;
+  resident: string;
+  room: string;
+  message: string;
+  transcript: string;
+  priority: number;
+  status: RequestStatus;
+  createdAt: Date;
+  aiSummary: string;
+  assignedTo?: string;
+  resolvedBy?: string;
+}
+
 // Demo data - fake resident requests with priorities
-const DEMO_REQUESTS = [
+const DEMO_REQUESTS: Request[] = [
   {
     id: '1',
     resident: 'Maria Schmidt',
@@ -120,7 +137,7 @@ function timeAgo(date: Date) {
 }
 
 function RequestCard({ request, onAccept, onResolve }: {
-  request: typeof DEMO_REQUESTS[0];
+  request: Request;
   onAccept?: () => void;
   onResolve?: () => void;
 }) {
@@ -229,14 +246,14 @@ export default function RequestsDashboard() {
   const simulateNewRequest = () => {
     setIsSimulating(true);
     
-    const newRequest = {
+    const newRequest: Request = {
       id: Date.now().toString(),
       resident: 'Greta Meier',
       room: '307',
       message: 'Ich kann nicht atmen, bitte helfen!',
       transcript: 'Hilfe! Ich bekomme schlecht Luft. Bitte kommen Sie schnell!',
       priority: 10,
-      status: 'pending' as const,
+      status: 'pending',
       createdAt: new Date(),
       aiSummary: '⚠️ NOTFALL: Atemnot - sofortige medizinische Hilfe!',
     };
@@ -329,7 +346,7 @@ export default function RequestsDashboard() {
                     setRequests(prev => 
                       prev.map(r => 
                         r.id === request.id 
-                          ? { ...r, status: 'assigned' as const, assignedTo: 'Sie (Demo)' }
+                          ? { ...r, status: 'assigned', assignedTo: 'Sie (Demo)' }
                           : r
                       )
                     );
@@ -362,7 +379,7 @@ export default function RequestsDashboard() {
                   setRequests(prev =>
                     prev.map(r =>
                       r.id === request.id
-                        ? { ...r, status: 'resolved' as const, resolvedBy: 'Sie (Demo)' }
+                        ? { ...r, status: 'resolved', resolvedBy: 'Sie (Demo)' }
                         : r
                     )
                   );
