@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Activity, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { Sparkles, Menu, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const navLinks = [
   { href: '/', label: 'Start' },
@@ -17,21 +17,37 @@ const navLinks = [
 export function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#fafbfc]/80 backdrop-blur-xl border-b border-slate-200/50">
+    <header 
+      className={`
+        fixed top-0 left-0 right-0 z-50 transition-all duration-300
+        ${scrolled 
+          ? 'bg-[#0a0a0b]/80 backdrop-blur-xl border-b border-white/5' 
+          : 'bg-transparent'
+        }
+      `}
+    >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="relative">
-              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-teal-500/25 group-hover:shadow-teal-500/40 transition-shadow">
-                <Activity className="h-5 w-5 text-white" />
+              <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-violet-500/25 group-hover:shadow-violet-500/40 transition-all group-hover:scale-105">
+                <Sparkles className="h-4 w-4 text-white" />
               </div>
-              <div className="absolute -top-1 -right-1 h-3 w-3 bg-emerald-400 rounded-full border-2 border-[#fafbfc] animate-pulse" />
             </div>
-            <span className="text-xl font-bold text-slate-900 tracking-tight">
-              Pflege<span className="text-teal-600">AI</span>
+            <span className="text-lg font-bold text-white tracking-tight">
+              Pflege<span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">AI</span>
             </span>
           </Link>
 
@@ -43,10 +59,10 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     isActive
-                      ? 'bg-teal-50 text-teal-700'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                      ? 'bg-white/10 text-white'
+                      : 'text-zinc-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   {link.label}
@@ -58,12 +74,12 @@ export function Header() {
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
             <Link href="/sign-in">
-              <Button variant="ghost" size="sm" className="text-slate-600 hover:text-slate-900">
+              <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-white hover:bg-white/5">
                 Anmelden
               </Button>
             </Link>
             <Link href="/resident">
-              <Button size="sm" className="bg-slate-900 hover:bg-slate-800 text-white rounded-full px-5 shadow-lg shadow-slate-900/10">
+              <Button size="sm" className="bg-white text-black hover:bg-zinc-200 rounded-full px-5 font-semibold">
                 Demo starten
               </Button>
             </Link>
@@ -71,13 +87,13 @@ export function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-white/5 transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? (
-              <X className="h-6 w-6 text-slate-700" />
+              <X className="h-6 w-6 text-white" />
             ) : (
-              <Menu className="h-6 w-6 text-slate-700" />
+              <Menu className="h-6 w-6 text-white" />
             )}
           </button>
         </div>
@@ -85,7 +101,7 @@ export function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-slate-200">
+        <div className="md:hidden bg-[#0a0a0b]/95 backdrop-blur-xl border-t border-white/5">
           <nav className="max-w-7xl mx-auto px-6 py-4 space-y-1">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
@@ -94,10 +110,10 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                  className={`block px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-teal-50 text-teal-700'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                      ? 'bg-white/10 text-white'
+                      : 'text-zinc-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   {link.label}
@@ -106,12 +122,12 @@ export function Header() {
             })}
             <div className="pt-4 flex flex-col gap-2">
               <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full text-white border-white/20 hover:bg-white/10">
                   Anmelden
                 </Button>
               </Link>
               <Link href="/resident" onClick={() => setMobileMenuOpen(false)}>
-                <Button className="w-full bg-teal-600 hover:bg-teal-700">
+                <Button className="w-full bg-white text-black hover:bg-zinc-200">
                   Demo starten
                 </Button>
               </Link>

@@ -1,136 +1,182 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Shield, Clock, Brain, Users, CheckCircle, Phone, Sparkles, Activity, Zap, ChevronRight } from 'lucide-react';
+import { ArrowRight, Zap, Shield, Sparkles, ChevronRight, Play, Mic, Clock, Users, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 /**
  * PflegeAI Landing Page
- * Aesthetic: Clinical Precision — Premium healthcare B2B
+ * Aesthetic: Linear/Vercel — Dark, bold, confident tech startup
  */
 
 export default function HomePage() {
   return (
-    <>
-      {/* Hero Section */}
-      <section className="relative pt-16 pb-24 lg:pt-24 lg:pb-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            {/* Left: Copy */}
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-teal-50 to-emerald-50 border border-teal-200/50 mb-8">
-                <Sparkles className="h-4 w-4 text-teal-600" />
-                <span className="text-sm font-medium text-teal-700">KI-gestützte Pflegeassistenz</span>
+    <div className="bg-[#0a0a0b]">
+      {/* Hero Section — Dark with glow */}
+      <section className="relative min-h-[100vh] flex items-center overflow-hidden">
+        {/* Gradient orbs */}
+        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-violet-600/20 rounded-full blur-[120px] animate-pulse-slow" />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-fuchsia-600/10 rounded-full blur-[80px]" />
+        
+        {/* Grid pattern */}
+        <div 
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
+            backgroundSize: '64px 64px'
+          }}
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-24">
+          <div className="max-w-4xl">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8 animate-fade-in">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-500"></span>
+              </span>
+              <span className="text-sm text-zinc-300">Pilot-Programm gestartet</span>
+            </div>
+
+            {/* Headline */}
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[0.95] animate-fade-in-up">
+              <span className="text-white">Pflege,</span>
+              <br />
+              <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-violet-400 bg-clip-text text-transparent animate-gradient">
+                intelligent.
+              </span>
+            </h1>
+
+            {/* Subheadline */}
+            <p className="mt-8 text-xl sm:text-2xl text-zinc-400 leading-relaxed max-w-2xl animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+              KI-Sprachassistenz, die Pflegeheim-Anfragen versteht, priorisiert und zuweist. 
+              Weniger Chaos, mehr Zeit für Menschen.
+            </p>
+
+            {/* CTAs */}
+            <div className="mt-12 flex flex-col sm:flex-row gap-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <Link href="mailto:kontakt@pflegeai.de?subject=Pilot-Programm">
+                <Button size="lg" className="w-full sm:w-auto bg-white text-black hover:bg-zinc-200 text-base px-8 py-6 rounded-full font-semibold group transition-all hover:scale-[1.02]">
+                  Pilot-Partner werden
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+              <Link href="/resident">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto text-white border-white/20 hover:bg-white/10 hover:border-white/30 text-base px-8 py-6 rounded-full group transition-all">
+                  <Play className="mr-2 h-4 w-4" />
+                  Demo ansehen
+                </Button>
+              </Link>
+            </div>
+
+            {/* Trust signals */}
+            <div className="mt-16 flex flex-wrap items-center gap-x-8 gap-y-4 text-sm text-zinc-500 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+              <div className="flex items-center gap-2">
+                <Shield className="h-4 w-4 text-zinc-400" />
+                <span>DSGVO-konform</span>
               </div>
-              
-              <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-900 tracking-tight leading-[1.1]">
-                Pflege
-                <span className="relative mx-3">
-                  <span className="relative z-10 text-teal-600">neu</span>
-                  <svg className="absolute -bottom-2 left-0 w-full h-3 text-teal-200" viewBox="0 0 100 12" preserveAspectRatio="none">
-                    <path d="M0 8 Q25 0 50 8 T100 8" stroke="currentColor" strokeWidth="4" fill="none" strokeLinecap="round"/>
-                  </svg>
-                </span>
-                gedacht.
-              </h1>
-              
-              <p className="mt-8 text-xl text-slate-600 leading-relaxed max-w-xl">
-                PflegeAI verbindet Bewohner und Pflegekräfte durch intelligente Sprachassistenz. 
-                <span className="text-slate-900 font-medium"> Automatische Priorisierung</span> sorgt dafür, 
-                dass Ihr Team immer weiß, wo Hilfe am dringendsten benötigt wird.
-              </p>
-              
-              <div className="mt-10 flex flex-col sm:flex-row gap-4">
-                <Link href="/resident">
-                  <Button size="lg" className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white text-lg px-8 py-6 rounded-2xl shadow-xl shadow-teal-600/20 hover:shadow-teal-600/30 transition-all group">
-                    Bewohner-Demo
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-                <Link href="/staff">
-                  <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg px-8 py-6 rounded-2xl border-slate-300 hover:border-slate-400 hover:bg-slate-50 transition-all">
-                    Personal-Dashboard
-                  </Button>
-                </Link>
+              <div className="flex items-center gap-2">
+                <span className="text-zinc-400">🇩🇪</span>
+                <span>Gehostet in Deutschland</span>
               </div>
-              
-              <div className="mt-12 flex flex-wrap items-center gap-6">
-                <StatPill icon={<Shield className="h-4 w-4" />} label="DSGVO-konform" />
-                <StatPill icon={<CheckCircle className="h-4 w-4" />} label="Deutsche Server" />
-                <StatPill icon={<Zap className="h-4 w-4" />} label="< 2s Antwortzeit" />
+              <div className="flex items-center gap-2">
+                <Zap className="h-4 w-4 text-zinc-400" />
+                <span>&lt;2s Antwortzeit</span>
               </div>
             </div>
-            
-            {/* Right: Visual */}
-            <div className="relative lg:h-[600px]">
-              <HeroVisual />
-            </div>
+          </div>
+
+          {/* Product Visual */}
+          <div className="mt-20 lg:mt-0 lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[45%] animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+            <ProductMockup />
           </div>
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <section className="py-12 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <StatItem value="KI" label="Priorisierung" />
-            <StatItem value="Echtzeit" label="Dokumentation" />
-            <StatItem value="100%" label="Anfragen dokumentiert" />
-            <StatItem value="24/7" label="Verfügbar" />
-          </div>
-        </div>
-      </section>
-
-      {/* Problem/Solution Section */}
-      <section className="py-24 lg:py-32 bg-white" id="features">
+      {/* How it works — Clean, minimal */}
+      <section className="relative py-32 bg-[#0a0a0b]" id="how-it-works">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-20">
-            <span className="text-sm font-semibold text-teal-600 tracking-wider uppercase">Das Problem</span>
-            <h2 className="mt-4 text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
-              Wertvolle Zeit geht verloren
+            <span className="text-sm font-semibold text-violet-400 tracking-wider uppercase">So funktioniert's</span>
+            <h2 className="mt-4 text-4xl lg:text-5xl font-bold text-white tracking-tight">
+              Drei Schritte.
+              <br />
+              <span className="text-zinc-500">Kein Aufwand.</span>
             </h2>
-            <p className="mt-6 text-xl text-slate-600 max-w-2xl mx-auto">
-              Pflegekräfte verbringen zu viel Zeit mit Koordination statt mit Menschen.
-            </p>
           </div>
-          
-          <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* Before */}
-            <div className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-rose-100 to-red-50 rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform" />
-              <div className="relative bg-white rounded-3xl p-10 shadow-xl shadow-rose-500/5 border border-rose-100">
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="h-12 w-12 rounded-2xl bg-rose-100 flex items-center justify-center">
-                    <span className="text-2xl">😰</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-900">Ohne PflegeAI</h3>
-                </div>
-                <ul className="space-y-5">
-                  <ProblemItem text="Klingel zeigt nicht, wer dringend Hilfe braucht" />
-                  <ProblemItem text="Pflegekräfte laufen unnötige Wege" />
-                  <ProblemItem text="Bewohner warten lange auf einfache Anfragen" />
-                  <ProblemItem text="Keine Dokumentation von Anfragen für MDK" />
-                </ul>
-              </div>
+
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+            <StepCard
+              number="01"
+              icon={<Mic className="h-6 w-6" />}
+              title="Sprechen"
+              description="Bewohner drückt einen Knopf und spricht. Natürliche Sprache, keine Menüs."
+            />
+            <StepCard
+              number="02"
+              icon={<Sparkles className="h-6 w-6" />}
+              title="Verstehen"
+              description="KI analysiert Kontext und Dringlichkeit. Notfall? Sofort-Eskalation."
+            />
+            <StepCard
+              number="03"
+              icon={<Users className="h-6 w-6" />}
+              title="Zuweisen"
+              description="Die richtige Pflegekraft wird benachrichtigt. Automatisch dokumentiert."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Problem/Solution */}
+      <section className="relative py-32 bg-gradient-to-b from-[#0a0a0b] to-[#0f0f11]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            {/* Problem */}
+            <div>
+              <span className="text-sm font-semibold text-zinc-500 tracking-wider uppercase">Das Problem</span>
+              <h2 className="mt-4 text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
+                Pflegekräfte verbringen{' '}
+                <span className="text-rose-400">40%</span>{' '}
+                ihrer Zeit mit Koordination.
+              </h2>
+              <p className="mt-6 text-lg text-zinc-400 leading-relaxed">
+                Klingel klingelt. Aber wer braucht wirklich Hilfe? Wer hat nur eine Frage? 
+                Wer hat einen Notfall? Ohne Kontext laufen Pflegekräfte blind.
+              </p>
+
+              <ul className="mt-10 space-y-4">
+                <ProblemItem text="Klingel zeigt nicht, wer dringend Hilfe braucht" />
+                <ProblemItem text="Pflegekräfte laufen unnötige Wege" />
+                <ProblemItem text="Keine automatische Dokumentation für MDK" />
+              </ul>
             </div>
-            
-            {/* After */}
-            <div className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-teal-100 to-emerald-50 rounded-3xl transform -rotate-1 group-hover:-rotate-2 transition-transform" />
-              <div className="relative bg-white rounded-3xl p-10 shadow-xl shadow-teal-500/5 border border-teal-100">
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="h-12 w-12 rounded-2xl bg-teal-100 flex items-center justify-center">
-                    <span className="text-2xl">✨</span>
+
+            {/* Solution */}
+            <div className="relative">
+              <div className="absolute -inset-4 bg-gradient-to-br from-violet-600/20 to-fuchsia-600/20 rounded-3xl blur-xl" />
+              <div className="relative bg-zinc-900/80 backdrop-blur-xl rounded-3xl border border-white/10 p-10">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center">
+                    <Sparkles className="h-6 w-6 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-900">Mit PflegeAI</h3>
+                  <h3 className="text-2xl font-bold text-white">Mit PflegeAI</h3>
                 </div>
+
                 <ul className="space-y-5">
                   <SolutionItem text="KI priorisiert: Notfall vor Wasserglas" />
-                  <SolutionItem text="Gezielte Zuweisung an verfügbare Pflegekräfte" />
-                  <SolutionItem text="Bewohner erhalten sofort Bestätigung" />
+                  <SolutionItem text="Gezielte Zuweisung an verfügbare Pflegekraft" />
+                  <SolutionItem text="Bewohner erhält sofort Bestätigung" />
                   <SolutionItem text="Automatische Dokumentation & Analyse" />
                 </ul>
+
+                <div className="mt-10 pt-8 border-t border-white/10">
+                  <p className="text-sm text-zinc-400">
+                    Resultat: Mehr Zeit für echte Pflege, weniger für Koordination.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -138,79 +184,80 @@ export default function HomePage() {
       </section>
 
       {/* Features Grid */}
-      <section className="py-24 lg:py-32 bg-[#fafbfc]">
+      <section className="relative py-32 bg-[#0f0f11]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-20">
-            <span className="text-sm font-semibold text-teal-600 tracking-wider uppercase">So funktioniert's</span>
-            <h2 className="mt-4 text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
-              Drei Schritte zur besseren Pflege
+            <span className="text-sm font-semibold text-violet-400 tracking-wider uppercase">Features</span>
+            <h2 className="mt-4 text-4xl lg:text-5xl font-bold text-white tracking-tight">
+              Gebaut für die Pflege.
             </h2>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <FeatureCard
-              number="01"
-              icon={<Brain className="h-7 w-7" />}
-              title="Sprechen"
-              description="Bewohner drücken einen Knopf und sprechen ihre Anfrage. Die KI versteht natürliche Sprache in Deutsch."
+              icon={<Mic className="h-5 w-5" />}
+              title="Natürliche Sprache"
+              description="Bewohner sprechen einfach. Keine Menüs, keine Codes, keine Schulung nötig."
             />
             <FeatureCard
-              number="02"
-              icon={<Clock className="h-7 w-7" />}
-              title="Priorisieren"
-              description="Die KI analysiert Dringlichkeit und Kontext. Notfälle werden sofort eskaliert, Routine wird eingeplant."
+              icon={<Zap className="h-5 w-5" />}
+              title="Echtzeit-Priorisierung"
+              description="KI erkennt Dringlichkeit sofort. Notfälle werden in Sekunden eskaliert."
             />
             <FeatureCard
-              number="03"
-              icon={<Users className="h-7 w-7" />}
-              title="Zuweisen"
-              description="Das richtige Teammitglied wird benachrichtigt. Alles wird automatisch für Prüfungen dokumentiert."
+              icon={<Users className="h-5 w-5" />}
+              title="Smartes Routing"
+              description="Anfragen gehen an die richtige Person — basierend auf Verfügbarkeit und Skills."
+            />
+            <FeatureCard
+              icon={<Clock className="h-5 w-5" />}
+              title="24/7 Verfügbar"
+              description="Das System schläft nie. Jede Anfrage wird erfasst und verarbeitet."
+            />
+            <FeatureCard
+              icon={<Shield className="h-5 w-5" />}
+              title="MDK-ready"
+              description="Automatische Dokumentation jeder Interaktion. Audit-sicher und vollständig."
+            />
+            <FeatureCard
+              icon={<Sparkles className="h-5 w-5" />}
+              title="Lernfähig"
+              description="Das System lernt aus Feedback und wird mit der Zeit besser für Ihre Einrichtung."
             />
           </div>
         </div>
       </section>
 
-      {/* Security Section */}
-      <section className="py-24 lg:py-32 bg-slate-900" id="security">
+      {/* Security */}
+      <section className="relative py-32 bg-gradient-to-b from-[#0f0f11] to-[#0a0a0b]" id="security">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="text-sm font-semibold text-teal-400 tracking-wider uppercase">Datenschutz</span>
+              <span className="text-sm font-semibold text-violet-400 tracking-wider uppercase">Datenschutz</span>
               <h2 className="mt-4 text-4xl lg:text-5xl font-bold text-white tracking-tight">
-                Höchste Sicherheitsstandards
+                Ihre Daten bleiben bei Ihnen.
               </h2>
-              <p className="mt-6 text-xl text-slate-400 leading-relaxed">
-                Wir wissen, dass Gesundheitsdaten sensibel sind. Deshalb setzen wir auf 
-                Datenschutz by Design — entwickelt für den deutschen Markt.
+              <p className="mt-6 text-lg text-zinc-400 leading-relaxed">
+                Gesundheitsdaten sind sensibel. Deshalb: Deutsche Server, Ende-zu-Ende-Verschlüsselung, 
+                DSGVO-konforme Verarbeitung. Kein Wenn und Aber.
               </p>
-              
-              <div className="mt-12 grid gap-6">
-                <SecurityItem icon={<Shield />} title="DSGVO-konforme Verarbeitung" description="Alle Prozesse entsprechen der europäischen Datenschutz-Grundverordnung." />
-                <SecurityItem icon={<CheckCircle />} title="Deutsche Server" description="Ihre Daten verlassen niemals die Bundesrepublik Deutschland." />
-                <SecurityItem icon={<Zap />} title="Ende-zu-Ende-Verschlüsselung" description="Kommunikation ist vollständig verschlüsselt, auch für uns unlesbar." />
-              </div>
-              
-              <div className="mt-10">
-                <Link href="/sicherheit">
-                  <Button variant="outline" className="text-white border-slate-600 hover:bg-slate-800">
-                    Mehr zur Sicherheit
-                    <ChevronRight className="ml-1 h-4 w-4" />
-                  </Button>
-                </Link>
+
+              <div className="mt-12 space-y-6">
+                <SecurityItem title="DSGVO-konform" description="Alle Prozesse entsprechen der europäischen Datenschutz-Grundverordnung." />
+                <SecurityItem title="Deutsche Server" description="Ihre Daten verlassen niemals Deutschland. Punkt." />
+                <SecurityItem title="E2E-Verschlüsselung" description="Kommunikation ist vollständig verschlüsselt, auch für uns unlesbar." />
               </div>
             </div>
-            
-            <div className="relative flex justify-center lg:justify-end">
+
+            <div className="relative flex justify-center">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-teal-500/20 to-emerald-500/20 rounded-3xl blur-3xl" />
-                <div className="relative bg-slate-800 rounded-3xl p-12 border border-slate-700">
-                  <div className="text-center">
-                    <div className="text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-teal-400 to-emerald-400">
-                      100%
-                    </div>
-                    <div className="mt-4 text-xl text-slate-300">Made in Germany</div>
-                    <div className="mt-2 text-slate-500">Entwickelt · Gehostet · Betrieben</div>
+                <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 to-blue-500/20 rounded-3xl blur-2xl" />
+                <div className="relative bg-zinc-900/80 backdrop-blur-xl rounded-3xl border border-white/10 p-12 text-center">
+                  <div className="text-8xl lg:text-9xl font-bold bg-gradient-to-br from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+                    100%
                   </div>
+                  <div className="mt-4 text-2xl font-semibold text-white">Made in Germany</div>
+                  <div className="mt-2 text-zinc-500">Entwickelt · Gehostet · Betrieben</div>
                 </div>
               </div>
             </div>
@@ -218,43 +265,41 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 lg:py-32 bg-white">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-50 border border-teal-200/50 mb-8">
-            <Phone className="h-4 w-4 text-teal-600" />
-            <span className="text-sm font-medium text-teal-700">Kostenlose Demo</span>
-          </div>
-          
-          <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
-            Bereit für bessere Pflege?
+      {/* CTA */}
+      <section className="relative py-32 bg-[#0a0a0b] overflow-hidden">
+        {/* Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-600/20 rounded-full blur-[150px]" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 text-center">
+          <h2 className="text-4xl lg:text-6xl font-bold text-white tracking-tight">
+            Bereit, Pflege neu zu denken?
           </h2>
-          <p className="mt-6 text-xl text-slate-600 max-w-2xl mx-auto">
-            Vereinbaren Sie eine kostenlose Demo und sehen Sie, wie PflegeAI 
-            Ihren Pflegealltag transformieren kann.
+          <p className="mt-6 text-xl text-zinc-400 max-w-2xl mx-auto">
+            Wir suchen Pilot-Partner, die mit uns die Zukunft der Pflege gestalten wollen. 
+            Frühe Partner profitieren von bevorzugtem Support und Einfluss auf die Produktentwicklung.
           </p>
-          
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="mailto:kontakt@pflegeai.de?subject=Demo-Anfrage">
-              <Button size="lg" className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white text-lg px-8 py-6 rounded-2xl shadow-xl shadow-teal-600/20 hover:shadow-teal-600/30 transition-all group">
-                <Phone className="mr-2 h-5 w-5" />
-                Demo vereinbaren
+
+          <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="mailto:kontakt@pflegeai.de?subject=Pilot-Programm">
+              <Button size="lg" className="w-full sm:w-auto bg-white text-black hover:bg-zinc-200 text-base px-8 py-6 rounded-full font-semibold group transition-all hover:scale-[1.02]">
+                Pilot-Partner werden
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Link href="/preise">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg px-8 py-6 rounded-2xl border-slate-300 hover:border-slate-400 hover:bg-slate-50 transition-all group">
-                Preise ansehen
+            <Link href="/resident">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto text-white border-white/20 hover:bg-white/10 hover:border-white/30 text-base px-8 py-6 rounded-full group transition-all">
+                Demo ausprobieren
                 <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
           </div>
-          
-          <p className="mt-8 text-sm text-slate-500">
-            Keine Kreditkarte erforderlich • 14 Tage kostenlos • Jederzeit kündbar
+
+          <p className="mt-10 text-sm text-zinc-600">
+            Fragen? kontakt@pflegeai.de
           </p>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 
@@ -262,12 +307,12 @@ export default function HomePage() {
 // Components
 // ─────────────────────────────────────────────────────────────────────────────
 
-function HeroVisual() {
+function ProductMockup() {
   const [activeRequest, setActiveRequest] = useState(0);
   const requests = [
-    { room: '214', text: 'Ich hätte gerne ein Glas Wasser', priority: 'normal', time: '14:32' },
-    { room: '118', text: 'Hilfe beim Aufstehen benötigt', priority: 'medium', time: '14:31' },
-    { room: '305', text: 'Notfall - Sturz im Bad!', priority: 'high', time: '14:30' },
+    { room: '214', text: 'Ich hätte gerne ein Glas Wasser', priority: 'low', time: 'Jetzt' },
+    { room: '118', text: 'Brauche Hilfe beim Aufstehen', priority: 'medium', time: '2m' },
+    { room: '305', text: 'Notfall — Sturz im Badezimmer', priority: 'high', time: '1m' },
   ];
 
   useEffect(() => {
@@ -278,70 +323,74 @@ function HeroVisual() {
   }, []);
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-teal-200/40 via-emerald-200/30 to-cyan-200/20 rounded-full blur-3xl" />
+    <div className="relative">
+      {/* Glow behind mockup */}
+      <div className="absolute -inset-8 bg-gradient-to-br from-violet-600/30 to-fuchsia-600/20 rounded-[40px] blur-3xl" />
       
-      {/* Main device mockup */}
-      <div className="relative">
-        {/* Tablet frame */}
-        <div className="w-[340px] h-[480px] bg-slate-900 rounded-[2.5rem] p-3 shadow-2xl shadow-slate-900/30">
-          <div className="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 rounded-[2rem] overflow-hidden border border-slate-700/50">
+      {/* Main device */}
+      <div className="relative w-full max-w-[380px] mx-auto">
+        <div className="bg-zinc-950 rounded-[32px] p-2 shadow-2xl border border-white/10">
+          <div className="bg-gradient-to-b from-zinc-900 to-zinc-950 rounded-[26px] overflow-hidden">
             {/* Status bar */}
-            <div className="flex items-center justify-between px-6 py-3 bg-slate-800/50">
-              <span className="text-xs text-slate-400">14:32</span>
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-2 border border-slate-500 rounded-sm relative">
-                  <div className="absolute inset-[2px] bg-emerald-400 rounded-[1px]" style={{ width: '70%' }} />
-                </div>
+            <div className="flex items-center justify-between px-6 py-3">
+              <span className="text-xs text-zinc-500 font-medium">14:32</span>
+              <div className="flex items-center gap-2">
+                <div className="w-1 h-1 rounded-full bg-green-500" />
+                <span className="text-xs text-zinc-500">Verbunden</span>
               </div>
             </div>
-            
+
             {/* Header */}
-            <div className="px-6 py-4 border-b border-slate-700/50">
+            <div className="px-6 py-4 border-b border-white/5">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center">
-                  <Activity className="h-5 w-5 text-white" />
+                <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center">
+                  <Sparkles className="h-5 w-5 text-white" />
                 </div>
                 <div>
                   <div className="text-white font-semibold">PflegeAI</div>
-                  <div className="text-xs text-emerald-400 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                    Station A • Aktiv
+                  <div className="text-xs text-green-400 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 bg-green-400 rounded-full" />
+                    Station A · Live
                   </div>
                 </div>
               </div>
             </div>
-            
+
             {/* Request list */}
-            <div className="p-4 space-y-3">
+            <div className="p-4 space-y-3 min-h-[320px]">
+              <div className="text-xs text-zinc-500 font-medium uppercase tracking-wider mb-4">
+                Aktive Anfragen
+              </div>
               {requests.map((req, i) => (
                 <div 
                   key={i}
                   className={`
-                    p-4 rounded-2xl border transition-all duration-500
+                    p-4 rounded-2xl border transition-all duration-500 cursor-pointer
                     ${i === activeRequest 
-                      ? 'bg-teal-500/10 border-teal-500/30 scale-[1.02]' 
-                      : 'bg-slate-800/50 border-slate-700/30 opacity-60'
+                      ? 'bg-violet-500/10 border-violet-500/30 scale-[1.02] shadow-lg shadow-violet-500/10' 
+                      : 'bg-white/[0.02] border-white/5 opacity-50 hover:opacity-70'
                     }
                   `}
                 >
                   <div className="flex items-start justify-between mb-2">
                     <span className={`
                       px-2 py-0.5 rounded-full text-xs font-medium
-                      ${req.priority === 'high' ? 'bg-rose-500/20 text-rose-400' : 
-                        req.priority === 'medium' ? 'bg-amber-500/20 text-amber-400' : 
-                        'bg-slate-600/50 text-slate-300'}
+                      ${req.priority === 'high' 
+                        ? 'bg-rose-500/20 text-rose-400 animate-pulse' 
+                        : req.priority === 'medium' 
+                          ? 'bg-amber-500/20 text-amber-400' 
+                          : 'bg-zinc-700/50 text-zinc-400'
+                      }
                     `}>
                       Zimmer {req.room}
                     </span>
-                    <span className="text-xs text-slate-500">{req.time}</span>
+                    <span className="text-xs text-zinc-600">{req.time}</span>
                   </div>
-                  <p className="text-sm text-slate-300 line-clamp-1">{req.text}</p>
+                  <p className="text-sm text-zinc-300">{req.text}</p>
                   {req.priority === 'high' && (
-                    <div className="mt-2 flex items-center gap-1 text-xs text-rose-400">
+                    <div className="mt-3 flex items-center gap-2 text-xs text-rose-400 font-medium">
                       <Zap className="h-3 w-3" />
-                      Sofortige Bearbeitung erforderlich
+                      Sofortige Bearbeitung
                     </div>
                   )}
                 </div>
@@ -349,90 +398,25 @@ function HeroVisual() {
             </div>
           </div>
         </div>
-        
+
         {/* Floating notification */}
-        <div 
-          className="absolute -top-6 -right-12 bg-white rounded-2xl shadow-2xl shadow-slate-900/20 p-4 w-56 animate-float border border-slate-100"
-          style={{ animationDelay: '0.5s' }}
-        >
+        <div className="absolute -top-4 -right-8 bg-zinc-900 rounded-2xl shadow-2xl shadow-black/50 p-4 w-52 border border-white/10 animate-float">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center flex-shrink-0">
-              <Zap className="h-5 w-5 text-rose-600" />
+            <div className="w-9 h-9 rounded-xl bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+              <Zap className="h-4 w-4 text-rose-400" />
             </div>
             <div>
-              <p className="font-semibold text-slate-900 text-sm">Neue Anfrage</p>
-              <p className="text-xs text-slate-500 mt-0.5">Zi. 305 • Priorität: HOCH</p>
-            </div>
-          </div>
-        </div>
-        
-        {/* Floating stats */}
-        <div 
-          className="absolute -bottom-4 -left-16 bg-white rounded-2xl shadow-2xl shadow-slate-900/20 p-4 animate-float border border-slate-100"
-          style={{ animationDelay: '1s' }}
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
-              <CheckCircle className="h-5 w-5 text-emerald-600" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-slate-900">12</p>
-              <p className="text-xs text-slate-500">Anfragen heute</p>
+              <p className="font-semibold text-white text-sm">Neue Anfrage</p>
+              <p className="text-xs text-zinc-500 mt-0.5">Zi. 305 · Priorität HOCH</p>
             </div>
           </div>
         </div>
       </div>
-      
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
-        .animate-float {
-          animation: float 4s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 }
 
-function StatPill({ icon, label }: { icon: React.ReactNode; label: string }) {
-  return (
-    <div className="flex items-center gap-2 text-sm text-slate-600">
-      <span className="text-teal-600">{icon}</span>
-      <span>{label}</span>
-    </div>
-  );
-}
-
-function StatItem({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="text-center">
-      <div className="text-3xl lg:text-4xl font-bold text-white">{value}</div>
-      <div className="mt-1 text-sm text-slate-400">{label}</div>
-    </div>
-  );
-}
-
-function ProblemItem({ text }: { text: string }) {
-  return (
-    <li className="flex items-start gap-3">
-      <span className="mt-1.5 h-2 w-2 rounded-full bg-rose-400 flex-shrink-0" />
-      <span className="text-slate-700">{text}</span>
-    </li>
-  );
-}
-
-function SolutionItem({ text }: { text: string }) {
-  return (
-    <li className="flex items-start gap-3">
-      <CheckCircle className="mt-0.5 h-5 w-5 text-teal-500 flex-shrink-0" />
-      <span className="text-slate-700">{text}</span>
-    </li>
-  );
-}
-
-function FeatureCard({ 
+function StepCard({ 
   number,
   icon, 
   title, 
@@ -445,22 +429,22 @@ function FeatureCard({
 }) {
   return (
     <div className="group relative">
-      <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-emerald-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-      <div className="relative bg-white rounded-3xl p-8 shadow-sm border border-slate-200/50 hover:shadow-xl hover:border-slate-200 transition-all">
+      <div className="absolute inset-0 bg-gradient-to-br from-violet-600/10 to-fuchsia-600/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="relative bg-zinc-900/50 backdrop-blur-sm rounded-3xl p-8 border border-white/5 group-hover:border-violet-500/20 transition-colors">
         <div className="flex items-start justify-between mb-6">
-          <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white flex items-center justify-center shadow-lg shadow-teal-500/25">
+          <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center text-white shadow-lg shadow-violet-500/25">
             {icon}
           </div>
-          <span className="text-5xl font-bold text-slate-100 group-hover:text-teal-100 transition-colors">{number}</span>
+          <span className="text-5xl font-bold text-zinc-800 group-hover:text-violet-900/50 transition-colors">{number}</span>
         </div>
-        <h3 className="text-xl font-bold text-slate-900 mb-3">{title}</h3>
-        <p className="text-slate-600 leading-relaxed">{description}</p>
+        <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
+        <p className="text-zinc-400 leading-relaxed">{description}</p>
       </div>
     </div>
   );
 }
 
-function SecurityItem({ 
+function FeatureCard({ 
   icon, 
   title, 
   description 
@@ -470,13 +454,49 @@ function SecurityItem({
   description: string;
 }) {
   return (
-    <div className="flex gap-4">
-      <div className="h-12 w-12 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center flex-shrink-0">
+    <div className="group bg-zinc-900/50 backdrop-blur-sm rounded-2xl p-6 border border-white/5 hover:border-violet-500/20 transition-all hover:bg-zinc-900/80">
+      <div className="h-10 w-10 rounded-xl bg-violet-500/10 text-violet-400 flex items-center justify-center mb-4 group-hover:bg-violet-500/20 transition-colors">
         {icon}
+      </div>
+      <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
+      <p className="text-sm text-zinc-400 leading-relaxed">{description}</p>
+    </div>
+  );
+}
+
+function ProblemItem({ text }: { text: string }) {
+  return (
+    <li className="flex items-start gap-3">
+      <span className="mt-2 h-2 w-2 rounded-full bg-rose-500 flex-shrink-0" />
+      <span className="text-zinc-300">{text}</span>
+    </li>
+  );
+}
+
+function SolutionItem({ text }: { text: string }) {
+  return (
+    <li className="flex items-start gap-3">
+      <CheckCircle className="mt-0.5 h-5 w-5 text-violet-400 flex-shrink-0" />
+      <span className="text-zinc-200">{text}</span>
+    </li>
+  );
+}
+
+function SecurityItem({ 
+  title, 
+  description 
+}: { 
+  title: string; 
+  description: string;
+}) {
+  return (
+    <div className="flex gap-4">
+      <div className="h-10 w-10 rounded-xl bg-violet-500/10 text-violet-400 flex items-center justify-center flex-shrink-0">
+        <CheckCircle className="h-5 w-5" />
       </div>
       <div>
         <h3 className="text-lg font-semibold text-white">{title}</h3>
-        <p className="mt-1 text-slate-400">{description}</p>
+        <p className="mt-1 text-zinc-400 text-sm">{description}</p>
       </div>
     </div>
   );
