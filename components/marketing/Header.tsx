@@ -11,6 +11,7 @@ const navLinks = [
   { href: '/produkt', label: 'Produkt' },
   { href: '/preise', label: 'Preise' },
   { href: '/sicherheit', label: 'Sicherheit' },
+  { href: '/ueber-uns', label: 'Über uns' },
 ];
 
 export function Header() {
