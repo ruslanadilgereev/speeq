@@ -2,11 +2,11 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { Send, Mic, MicOff, ArrowLeft, Settings, Loader2, User, Bot, AlertCircle } from 'lucide-react';
+import { Send, Mic, MicOff, ArrowLeft, Settings, Loader2, User, Bot, AlertCircle, Sparkles } from 'lucide-react';
 
 /**
  * Bewohner Chat Interface
- * Inspired by Suna/Kortix - Clean, Professional B2B Design
+ * Design: Dark Linear/Vercel style with violet/fuchsia accents
  */
 
 interface Message {
@@ -152,34 +152,40 @@ export default function ResidentPage() {
 
   const getPriorityBadge = (priority?: number) => {
     if (!priority) return null;
-    if (priority >= 9) return <span className="px-2 py-0.5 bg-red-500/20 text-red-400 text-xs rounded-full">Notfall</span>;
-    if (priority >= 7) return <span className="px-2 py-0.5 bg-orange-500/20 text-orange-400 text-xs rounded-full">Dringend</span>;
+    if (priority >= 9) return <span className="px-2 py-0.5 bg-rose-500/20 text-rose-400 text-xs rounded-full border border-rose-500/30">Notfall</span>;
+    if (priority >= 7) return <span className="px-2 py-0.5 bg-amber-500/20 text-amber-400 text-xs rounded-full border border-amber-500/30">Dringend</span>;
     return null;
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white flex flex-col">
+    <div className="min-h-screen bg-[#0a0a0b] text-white flex flex-col relative">
+      {/* Background effects */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-violet-600/15 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-fuchsia-600/10 rounded-full blur-[100px]" />
+      </div>
+
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-[#0a0a0f]/95 backdrop-blur border-b border-white/10">
+      <header className="sticky top-0 z-10 bg-[#0a0a0b]/80 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
-          <Link href="/" className="p-2 -ml-2 text-gray-400 hover:text-white transition-colors">
+          <Link href="/" className="p-2 -ml-2 text-zinc-400 hover:text-white transition-colors">
             <ArrowLeft className="h-5 w-5" />
           </Link>
           <div className="text-center">
             <h1 className="text-lg font-semibold flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              PflegeAI
+              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+              Pflege<span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">AI</span>
             </h1>
-            <p className="text-gray-500 text-xs">Zimmer 214 • Online</p>
+            <p className="text-zinc-500 text-xs">Zimmer 214 • Online</p>
           </div>
-          <Link href="/staff" className="p-2 -mr-2 text-gray-400 hover:text-white transition-colors">
+          <Link href="/staff" className="p-2 -mr-2 text-zinc-400 hover:text-white transition-colors">
             <Settings className="h-5 w-5" />
           </Link>
         </div>
       </header>
 
       {/* Messages */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto relative z-10">
         <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
           {messages.map((message) => (
             <div
@@ -187,28 +193,28 @@ export default function ResidentPage() {
               className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {message.role === 'assistant' && (
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0">
-                  <Bot className="w-4 h-4" />
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-violet-500/25">
+                  <Sparkles className="w-4 h-4 text-white" />
                 </div>
               )}
               <div
                 className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                   message.role === 'user'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-[#1a1a24] text-gray-100 border border-white/10'
+                    ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-500/20'
+                    : 'bg-zinc-900/80 backdrop-blur-sm text-zinc-100 border border-white/10'
                 }`}
               >
                 <p className="text-[15px] leading-relaxed whitespace-pre-wrap">{message.content}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="text-xs text-gray-400">
+                  <span className={`text-xs ${message.role === 'user' ? 'text-violet-200' : 'text-zinc-500'}`}>
                     {message.timestamp.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
                   </span>
                   {getPriorityBadge(message.priority)}
                 </div>
               </div>
               {message.role === 'user' && (
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center flex-shrink-0">
-                  <User className="w-4 h-4" />
+                <div className="w-9 h-9 rounded-xl bg-zinc-800 border border-white/10 flex items-center justify-center flex-shrink-0">
+                  <User className="w-4 h-4 text-zinc-400" />
                 </div>
               )}
             </div>
@@ -216,20 +222,20 @@ export default function ResidentPage() {
 
           {isLoading && (
             <div className="flex gap-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-                <Bot className="w-4 h-4" />
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-violet-500/25">
+                <Sparkles className="w-4 h-4 text-white" />
               </div>
-              <div className="bg-[#1a1a24] border border-white/10 rounded-2xl px-4 py-3">
+              <div className="bg-zinc-900/80 backdrop-blur-sm border border-white/10 rounded-2xl px-4 py-3">
                 <div className="flex items-center gap-2">
-                  <Loader2 className="w-4 h-4 animate-spin text-blue-400" />
-                  <span className="text-gray-400 text-sm">PflegeAI denkt nach...</span>
+                  <Loader2 className="w-4 h-4 animate-spin text-violet-400" />
+                  <span className="text-zinc-400 text-sm">PflegeAI denkt nach...</span>
                 </div>
               </div>
             </div>
           )}
 
           {error && (
-            <div className="flex items-center gap-2 text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+            <div className="flex items-center gap-2 text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-xl px-4 py-3">
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <p className="text-sm">{error}</p>
             </div>
@@ -240,24 +246,28 @@ export default function ResidentPage() {
       </main>
 
       {/* Quick Actions */}
-      <div className="border-t border-white/10 bg-[#0a0a0f]/95 backdrop-blur">
+      <div className="border-t border-white/10 bg-[#0a0a0b]/80 backdrop-blur-xl relative z-10">
         <div className="max-w-3xl mx-auto px-4 py-3">
           <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
             {[
-              { emoji: '🚰', text: 'Ich hätte gerne Wasser' },
-              { emoji: '🚽', text: 'Ich muss auf Toilette' },
-              { emoji: '💊', text: 'Ich brauche mein Medikament' },
-              { emoji: '🛏️', text: 'Hilfe beim Aufstehen' },
-              { emoji: '🆘', text: 'Notfall - Ich brauche sofort Hilfe!' },
+              { emoji: '🚰', text: 'Ich hätte gerne Wasser', label: 'Wasser' },
+              { emoji: '🚽', text: 'Ich muss auf Toilette', label: 'Toilette' },
+              { emoji: '💊', text: 'Ich brauche mein Medikament', label: 'Medikament' },
+              { emoji: '🛏️', text: 'Hilfe beim Aufstehen', label: 'Aufstehen' },
+              { emoji: '🆘', text: 'Notfall - Ich brauche sofort Hilfe!', label: 'Notfall' },
             ].map((action) => (
               <button
                 key={action.text}
                 onClick={() => handleQuickAction(action.text)}
                 disabled={isLoading}
-                className="flex-shrink-0 px-4 py-2 bg-[#1a1a24] hover:bg-[#252532] border border-white/10 rounded-full text-sm transition-colors disabled:opacity-50"
+                className={`flex-shrink-0 px-4 py-2 rounded-full text-sm transition-all disabled:opacity-50 ${
+                  action.label === 'Notfall'
+                    ? 'bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/30 text-rose-300'
+                    : 'bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-violet-500/30 text-zinc-300'
+                }`}
               >
                 <span className="mr-2">{action.emoji}</span>
-                {action.text.split(' ').slice(0, 3).join(' ')}...
+                {action.label}
               </button>
             ))}
           </div>
@@ -265,7 +275,7 @@ export default function ResidentPage() {
       </div>
 
       {/* Input */}
-      <div className="border-t border-white/10 bg-[#0a0a0f]">
+      <div className="border-t border-white/10 bg-[#0a0a0b] relative z-10">
         <div className="max-w-3xl mx-auto px-4 py-4">
           <form 
             onSubmit={(e) => { e.preventDefault(); handleSend(); }}
@@ -274,10 +284,10 @@ export default function ResidentPage() {
             <button
               type="button"
               onClick={toggleListening}
-              className={`p-3 rounded-full transition-all ${
+              className={`p-3 rounded-xl transition-all ${
                 isListening
-                  ? 'bg-red-500 text-white animate-pulse'
-                  : 'bg-[#1a1a24] text-gray-400 hover:text-white hover:bg-[#252532] border border-white/10'
+                  ? 'bg-rose-500 text-white animate-pulse shadow-lg shadow-rose-500/30'
+                  : 'bg-zinc-900 text-zinc-400 hover:text-white hover:bg-zinc-800 border border-white/10 hover:border-violet-500/30'
               }`}
               title={isListening ? 'Aufnahme stoppen' : 'Spracheingabe'}
             >
@@ -291,17 +301,27 @@ export default function ResidentPage() {
               onChange={(e) => setInput(e.target.value)}
               placeholder={isListening ? 'Ich höre zu...' : 'Schreiben Sie Ihre Nachricht...'}
               disabled={isLoading || isListening}
-              className="flex-1 bg-[#1a1a24] border border-white/10 rounded-full px-5 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 disabled:opacity-50"
+              className="flex-1 bg-zinc-900 border border-white/10 rounded-xl px-5 py-3 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 disabled:opacity-50 transition-all"
             />
 
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
-              className="p-3 bg-blue-600 hover:bg-blue-500 disabled:bg-gray-700 disabled:text-gray-500 rounded-full transition-colors"
+              className="p-3 bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-violet-600 hover:to-fuchsia-700 disabled:from-zinc-700 disabled:to-zinc-700 disabled:text-zinc-500 rounded-xl transition-all shadow-lg shadow-violet-500/25 disabled:shadow-none"
             >
               <Send className="w-5 h-5" />
             </button>
           </form>
+        </div>
+      </div>
+
+      {/* Demo Banner */}
+      <div className="fixed bottom-20 left-4 right-4 md:left-auto md:right-4 md:w-auto z-50 pointer-events-none">
+        <div className="bg-zinc-900/90 backdrop-blur-xl border border-white/10 text-white px-4 py-2 rounded-xl shadow-2xl flex items-center gap-2 text-sm pointer-events-auto">
+          <div className="p-1 rounded-lg bg-violet-500/20">
+            <Sparkles className="h-3 w-3 text-violet-400" />
+          </div>
+          <span className="text-zinc-400">Demo — Sprechen Sie oder tippen Sie</span>
         </div>
       </div>
     </div>

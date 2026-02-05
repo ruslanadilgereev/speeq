@@ -11,19 +11,16 @@ import {
   Phone,
   Users,
   Activity,
-  LogOut,
   Menu,
   X,
-  ChevronRight,
   Zap,
-  TrendingUp,
   Calendar,
-  MessageSquare,
   Volume2,
   FileText,
+  ArrowLeft,
+  Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 // Types
@@ -140,10 +137,17 @@ const DEMO_STAFF: StaffMember[] = [
 
 // Helper functions
 function getPriorityColor(priority: number) {
-  if (priority >= 9) return 'bg-red-500';
-  if (priority >= 7) return 'bg-orange-500';
-  if (priority >= 4) return 'bg-yellow-500';
-  return 'bg-green-500';
+  if (priority >= 9) return 'from-rose-500 to-red-600';
+  if (priority >= 7) return 'from-amber-500 to-orange-600';
+  if (priority >= 4) return 'from-yellow-500 to-amber-500';
+  return 'from-emerald-500 to-green-600';
+}
+
+function getPriorityBg(priority: number) {
+  if (priority >= 9) return 'bg-rose-500/20 text-rose-400 border-rose-500/30';
+  if (priority >= 7) return 'bg-amber-500/20 text-amber-400 border-amber-500/30';
+  if (priority >= 4) return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
+  return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
 }
 
 function getPriorityLabel(priority: number) {
@@ -155,10 +159,10 @@ function getPriorityLabel(priority: number) {
 
 function getStatusColor(status: StaffStatus) {
   switch (status) {
-    case 'available': return 'bg-green-500';
-    case 'busy': return 'bg-orange-500';
-    case 'break': return 'bg-yellow-500';
-    default: return 'bg-gray-400';
+    case 'available': return 'bg-emerald-500';
+    case 'busy': return 'bg-amber-500';
+    case 'break': return 'bg-violet-500';
+    default: return 'bg-zinc-600';
   }
 }
 
@@ -175,7 +179,7 @@ function timeAgo(date: Date) {
   const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
   if (seconds < 60) return `${seconds}s`;
   const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `${minutes} min`;
+  if (minutes < 60) return `${minutes}m`;
   const hours = Math.floor(minutes / 60);
   return `${hours}h`;
 }
@@ -185,155 +189,168 @@ function RequestCard({
   request, 
   onAccept, 
   onResolve,
-  compact = false 
 }: {
   request: CareRequest;
   onAccept?: () => void;
   onResolve?: () => void;
-  compact?: boolean;
 }) {
   const isEmergency = request.priority >= 9;
   
   return (
     <div className={`
-      bg-white rounded-xl border shadow-sm hover:shadow-md transition-all
-      ${isEmergency ? 'border-red-300 ring-2 ring-red-100' : 'border-gray-200'}
-      ${compact ? 'p-3' : 'p-4'}
+      group relative bg-zinc-900/60 backdrop-blur-sm rounded-2xl border transition-all duration-300
+      hover:bg-zinc-900/80 hover:border-violet-500/30
+      ${isEmergency 
+        ? 'border-rose-500/40 shadow-lg shadow-rose-500/10' 
+        : 'border-white/10'
+      }
     `}>
-      <div className="flex items-start gap-3">
-        {/* Priority indicator */}
-        <div className={`
-          w-2 h-full min-h-[60px] rounded-full ${getPriorityColor(request.priority)}
-          ${isEmergency ? 'animate-pulse' : ''}
-        `} />
-        
-        <div className="flex-1 min-w-0">
-          {/* Header */}
-          <div className="flex items-start justify-between gap-2">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-semibold text-gray-900">{request.resident}</span>
-                <span className="text-sm text-gray-500">Zi. {request.room}</span>
-              </div>
-              <p className="text-sm text-gray-600 mt-0.5">{request.aiSummary}</p>
+      {/* Priority gradient bar */}
+      <div className={`absolute top-0 left-0 right-0 h-1 rounded-t-2xl bg-gradient-to-r ${getPriorityColor(request.priority)} ${isEmergency ? 'animate-pulse' : ''}`} />
+      
+      <div className="p-5">
+        {/* Header */}
+        <div className="flex items-start justify-between gap-4 mb-4">
+          <div className="flex items-center gap-3">
+            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${getPriorityColor(request.priority)} flex items-center justify-center shadow-lg`}>
+              <span className="text-white font-bold text-sm">{request.room}</span>
             </div>
-            <div className="flex flex-col items-end gap-1">
-              <span className={`
-                px-2 py-0.5 rounded text-xs font-bold text-white
-                ${getPriorityColor(request.priority)}
-              `}>
-                {getPriorityLabel(request.priority)}
-              </span>
-              <span className="text-xs text-gray-400 flex items-center gap-1">
-                <Clock className="h-3 w-3" />
-                {timeAgo(request.createdAt)}
-              </span>
+            <div>
+              <h3 className="text-white font-semibold">{request.resident}</h3>
+              <p className="text-zinc-500 text-sm">Etage {request.floor}</p>
             </div>
           </div>
-          
-          {/* Transcript */}
-          {!compact && (
-            <div className="mt-2 p-2 bg-gray-50 rounded-lg">
-              <p className="text-sm text-gray-600 italic line-clamp-2">"{request.transcript}"</p>
+          <div className="flex flex-col items-end gap-2">
+            <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getPriorityBg(request.priority)}`}>
+              {getPriorityLabel(request.priority)}
+            </span>
+            <span className="text-xs text-zinc-500 flex items-center gap-1">
+              <Clock className="h-3 w-3" />
+              {timeAgo(request.createdAt)}
+            </span>
+          </div>
+        </div>
+
+        {/* AI Summary */}
+        <div className="mb-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Sparkles className="h-4 w-4 text-violet-400" />
+            <span className="text-xs text-violet-400 font-medium uppercase tracking-wider">KI-Analyse</span>
+          </div>
+          <p className="text-zinc-200">{request.aiSummary}</p>
+        </div>
+
+        {/* Transcript */}
+        <div className="p-3 bg-black/30 rounded-xl border border-white/5 mb-4">
+          <p className="text-sm text-zinc-400 italic">"{request.transcript}"</p>
+        </div>
+        
+        {/* Actions */}
+        <div className="flex items-center gap-3">
+          {request.status === 'pending' && (
+            <>
+              <Button 
+                onClick={onAccept}
+                className={`flex-1 rounded-xl font-semibold transition-all ${
+                  isEmergency 
+                    ? 'bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-600 hover:to-red-700 text-white shadow-lg shadow-rose-500/25' 
+                    : 'bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-violet-600 hover:to-fuchsia-700 text-white shadow-lg shadow-violet-500/25'
+                }`}
+              >
+                <CheckCircle className="h-4 w-4 mr-2" />
+                Übernehmen
+              </Button>
+              <Button 
+                variant="outline" 
+                size="icon"
+                className="border-white/10 text-zinc-400 hover:text-white hover:bg-white/10 hover:border-white/20 rounded-xl"
+              >
+                <Phone className="h-4 w-4" />
+              </Button>
+            </>
+          )}
+          {request.status === 'assigned' && (
+            <>
+              <div className="flex items-center gap-2 flex-1">
+                <div className="w-8 h-8 rounded-full bg-violet-500/20 flex items-center justify-center">
+                  <User className="h-4 w-4 text-violet-400" />
+                </div>
+                <span className="text-sm text-violet-300">{request.assignedTo}</span>
+              </div>
+              <Button 
+                variant="outline" 
+                onClick={onResolve}
+                className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/50 rounded-xl"
+              >
+                <CheckCircle className="h-4 w-4 mr-2" />
+                Erledigt
+              </Button>
+            </>
+          )}
+          {request.status === 'resolved' && (
+            <div className="flex items-center gap-2 text-emerald-400">
+              <CheckCircle className="h-5 w-5" />
+              <span className="text-sm font-medium">Erledigt</span>
             </div>
           )}
-          
-          {/* Actions */}
-          <div className="mt-3 flex items-center gap-2">
-            {request.status === 'pending' && (
-              <>
-                <Button 
-                  size="sm" 
-                  onClick={onAccept}
-                  className={isEmergency ? 'bg-red-600 hover:bg-red-700' : 'bg-blue-600 hover:bg-blue-700'}
-                >
-                  <CheckCircle className="h-4 w-4 mr-1" />
-                  Übernehmen
-                </Button>
-                <Button size="sm" variant="outline">
-                  <Phone className="h-4 w-4" />
-                </Button>
-              </>
-            )}
-            {request.status === 'assigned' && (
-              <>
-                <span className="text-sm text-blue-600 flex items-center gap-1">
-                  <User className="h-4 w-4" />
-                  {request.assignedTo}
-                </span>
-                <Button size="sm" variant="outline" onClick={onResolve}>
-                  Erledigt
-                </Button>
-              </>
-            )}
-            {request.status === 'resolved' && (
-              <span className="text-sm text-green-600 flex items-center gap-1">
-                <CheckCircle className="h-4 w-4" />
-                Erledigt
-              </span>
-            )}
-          </div>
         </div>
       </div>
     </div>
   );
 }
 
-function StaffCard({ member, onSelect }: { member: StaffMember; onSelect: () => void }) {
+function StaffCard({ member }: { member: StaffMember }) {
   return (
-    <button
-      onClick={onSelect}
-      className="w-full p-3 bg-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-sm transition-all text-left"
-    >
+    <div className="p-4 bg-zinc-900/40 backdrop-blur-sm rounded-xl border border-white/5 hover:border-violet-500/30 transition-all">
       <div className="flex items-center gap-3">
         <div className="relative">
-          <Avatar className="h-10 w-10">
-            <AvatarFallback className="bg-blue-100 text-blue-600 text-sm">
+          <Avatar className="h-10 w-10 border-2 border-zinc-800">
+            <AvatarFallback className="bg-gradient-to-br from-violet-500 to-fuchsia-600 text-white text-sm font-semibold">
               {member.name.split(' ').map(n => n[0]).join('')}
             </AvatarFallback>
           </Avatar>
-          <span className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-white ${getStatusColor(member.status)}`} />
+          <span className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-zinc-900 ${getStatusColor(member.status)}`} />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-medium text-gray-900 truncate">{member.name}</p>
-          <p className="text-xs text-gray-500">Etage {member.floor} · {member.activeRequests} aktiv</p>
+          <p className="font-medium text-white truncate">{member.name}</p>
+          <p className="text-xs text-zinc-500">Etage {member.floor} · {member.activeRequests} aktiv</p>
         </div>
-        <span className={`text-xs px-2 py-1 rounded-full ${
-          member.status === 'available' ? 'bg-green-100 text-green-700' :
-          member.status === 'busy' ? 'bg-orange-100 text-orange-700' :
-          'bg-gray-100 text-gray-700'
+        <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${
+          member.status === 'available' ? 'bg-emerald-500/20 text-emerald-400' :
+          member.status === 'busy' ? 'bg-amber-500/20 text-amber-400' :
+          'bg-zinc-700/50 text-zinc-400'
         }`}>
           {getStatusLabel(member.status)}
         </span>
       </div>
-    </button>
+    </div>
   );
 }
 
-function StatBox({ label, value, icon: Icon, trend, color = 'blue' }: {
+function StatCard({ label, value, icon: Icon, color = 'violet', trend }: {
   label: string;
   value: string | number;
   icon: typeof Bell;
+  color?: 'violet' | 'emerald' | 'amber' | 'rose';
   trend?: string;
-  color?: 'blue' | 'green' | 'orange' | 'red';
 }) {
   const colors = {
-    blue: 'bg-blue-50 text-blue-600',
-    green: 'bg-green-50 text-green-600',
-    orange: 'bg-orange-50 text-orange-600',
-    red: 'bg-red-50 text-red-600',
+    violet: 'from-violet-500 to-fuchsia-600 shadow-violet-500/25',
+    emerald: 'from-emerald-500 to-green-600 shadow-emerald-500/25',
+    amber: 'from-amber-500 to-orange-600 shadow-amber-500/25',
+    rose: 'from-rose-500 to-red-600 shadow-rose-500/25',
   };
   
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-4">
-      <div className="flex items-center justify-between">
+    <div className="bg-zinc-900/60 backdrop-blur-sm rounded-2xl border border-white/10 p-5">
+      <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm text-gray-500">{label}</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{value}</p>
-          {trend && <p className="text-xs text-green-600 mt-1">{trend}</p>}
+          <p className="text-sm text-zinc-500 mb-1">{label}</p>
+          <p className="text-3xl font-bold text-white">{value}</p>
+          {trend && <p className="text-xs text-emerald-400 mt-2 flex items-center gap-1">↓ {trend}</p>}
         </div>
-        <div className={`p-3 rounded-xl ${colors[color]}`}>
-          <Icon className="h-6 w-6" />
+        <div className={`p-3 rounded-xl bg-gradient-to-br ${colors[color]} shadow-lg`}>
+          <Icon className="h-5 w-5 text-white" />
         </div>
       </div>
     </div>
@@ -357,7 +374,7 @@ export default function StaffDashboard() {
     const interval = setInterval(() => {
       setRequests(prev => prev.map(r => ({
         ...r,
-        createdAt: r.createdAt // Force re-render to update time
+        createdAt: r.createdAt
       })));
     }, 30000);
     return () => clearInterval(interval);
@@ -376,53 +393,65 @@ export default function StaffDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#0a0a0b]">
+      {/* Background effects */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-violet-600/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-fuchsia-600/10 rounded-full blur-[100px]" />
+      </div>
+
       {/* Top Navigation */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="px-4 py-3">
-          <div className="flex items-center justify-between">
-            {/* Logo & Menu */}
-            <div className="flex items-center gap-3">
+      <header className="sticky top-0 z-50 bg-[#0a0a0b]/80 backdrop-blur-xl border-b border-white/10">
+        <div className="px-4 lg:px-6 py-4">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            {/* Left */}
+            <div className="flex items-center gap-4">
               <button 
-                className="lg:hidden p-2 -ml-2 text-gray-600"
+                className="lg:hidden p-2 -ml-2 text-zinc-400 hover:text-white transition-colors"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
-                {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
-              <Link href="/" className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+              <Link href="/" className="flex items-center gap-3 group">
+                <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-violet-500/25 group-hover:shadow-violet-500/40 transition-shadow">
                   <Activity className="h-5 w-5 text-white" />
                 </div>
-                <span className="font-bold text-gray-900 hidden sm:block">PflegeAI</span>
+                <div className="hidden sm:block">
+                  <span className="font-bold text-white">PflegeAI</span>
+                  <span className="text-zinc-500 text-sm ml-2">Staff Dashboard</span>
+                </div>
               </Link>
-              <span className="hidden sm:block text-sm text-gray-400 border-l pl-3 ml-1">Personal-Dashboard</span>
             </div>
 
             {/* Center - Emergency Alert */}
             {emergencies.length > 0 && (
-              <div className="hidden md:flex items-center gap-2 px-4 py-1.5 bg-red-100 text-red-700 rounded-full animate-pulse">
+              <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-rose-500/20 border border-rose-500/30 text-rose-400 rounded-full animate-pulse">
                 <AlertTriangle className="h-4 w-4" />
-                <span className="font-medium text-sm">{emergencies.length} Notfall{emergencies.length > 1 ? 'e' : ''}</span>
+                <span className="font-semibold text-sm">{emergencies.length} Notfall{emergencies.length > 1 ? 'e' : ''}</span>
               </div>
             )}
 
-            {/* Right - User & Settings */}
+            {/* Right */}
             <div className="flex items-center gap-3">
               <button 
                 onClick={() => setAudioEnabled(!audioEnabled)}
-                className={`p-2 rounded-lg ${audioEnabled ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-400'}`}
+                className={`p-2.5 rounded-xl border transition-all ${
+                  audioEnabled 
+                    ? 'bg-violet-500/20 border-violet-500/30 text-violet-400' 
+                    : 'bg-zinc-900/50 border-white/10 text-zinc-500 hover:text-zinc-300'
+                }`}
               >
                 <Volume2 className="h-5 w-5" />
               </button>
-              <div className="flex items-center gap-2">
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback className="bg-blue-100 text-blue-600 text-sm">
+              <div className="flex items-center gap-3 pl-3 border-l border-white/10">
+                <Avatar className="h-9 w-9 border-2 border-zinc-800">
+                  <AvatarFallback className="bg-gradient-to-br from-violet-500 to-fuchsia-600 text-white text-sm font-semibold">
                     {currentUser.name.split(' ').map(n => n[0]).join('')}
                   </AvatarFallback>
                 </Avatar>
                 <div className="hidden sm:block text-right">
-                  <p className="text-sm font-medium text-gray-900">{currentUser.name}</p>
-                  <p className="text-xs text-gray-500">Etage {currentUser.floor}</p>
+                  <p className="text-sm font-medium text-white">{currentUser.name}</p>
+                  <p className="text-xs text-zinc-500">Etage {currentUser.floor}</p>
                 </div>
               </div>
             </div>
@@ -431,14 +460,12 @@ export default function StaffDashboard() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-gray-200 bg-white p-4 space-y-2">
-            <Link href="/" className="block px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-700">
-              ← Zurück zur Startseite
+          <div className="lg:hidden border-t border-white/10 bg-zinc-900/95 backdrop-blur-xl p-4 space-y-2">
+            <Link href="/" className="flex items-center gap-2 px-4 py-3 rounded-xl hover:bg-white/5 text-zinc-300 transition-colors">
+              <ArrowLeft className="h-4 w-4" />
+              Zurück zur Startseite
             </Link>
-            <Link href="/requests" className="block px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-700">
-              Admin-Dashboard
-            </Link>
-            <Link href="/resident" className="block px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-700">
+            <Link href="/resident" className="block px-4 py-3 rounded-xl hover:bg-white/5 text-zinc-300 transition-colors">
               Bewohner-Ansicht
             </Link>
           </div>
@@ -446,42 +473,44 @@ export default function StaffDashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="p-4 lg:p-6 max-w-7xl mx-auto">
+      <main className="relative z-10 p-4 lg:p-6 max-w-7xl mx-auto">
         {/* Stats Row */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <StatBox 
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <StatCard 
             label="Wartende Anfragen" 
             value={pendingRequests.length} 
             icon={Bell}
-            color={emergencies.length > 0 ? 'red' : 'blue'}
+            color={emergencies.length > 0 ? 'rose' : 'violet'}
           />
-          <StatBox 
+          <StatCard 
             label="Meine aktiven" 
             value={myRequests.length} 
             icon={User}
-            color="orange"
+            color="amber"
           />
-          <StatBox 
+          <StatCard 
             label="Ø Reaktionszeit" 
-            value="3.8 min"
+            value="3.8m"
             icon={Clock}
-            trend="↓ 18% vs. gestern"
-            color="green"
+            trend="18% vs. gestern"
+            color="emerald"
           />
-          <StatBox 
+          <StatCard 
             label="Heute erledigt" 
             value={28}
             icon={CheckCircle}
-            color="green"
+            color="emerald"
           />
         </div>
 
         {/* Floor Filter */}
-        <div className="mb-6 flex gap-2 overflow-x-auto pb-2">
+        <div className="mb-8 flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
           <button
             onClick={() => setSelectedFloor(null)}
-            className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-              selectedFloor === null ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-blue-300'
+            className={`px-5 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+              selectedFloor === null 
+                ? 'bg-gradient-to-r from-violet-500 to-fuchsia-600 text-white shadow-lg shadow-violet-500/25' 
+                : 'bg-zinc-900/60 text-zinc-400 border border-white/10 hover:border-violet-500/30 hover:text-white'
             }`}
           >
             Alle Etagen
@@ -490,8 +519,10 @@ export default function StaffDashboard() {
             <button
               key={floor}
               onClick={() => setSelectedFloor(floor)}
-              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                selectedFloor === floor ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-blue-300'
+              className={`px-5 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                selectedFloor === floor 
+                  ? 'bg-gradient-to-r from-violet-500 to-fuchsia-600 text-white shadow-lg shadow-violet-500/25' 
+                  : 'bg-zinc-900/60 text-zinc-400 border border-white/10 hover:border-violet-500/30 hover:text-white'
               }`}
             >
               Etage {floor}
@@ -501,18 +532,20 @@ export default function StaffDashboard() {
 
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Left Column - Requests */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-8">
             {/* Emergency Requests */}
             {emergencies.length > 0 && (
               <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <AlertTriangle className="h-5 w-5 text-red-500" />
-                  <h2 className="font-semibold text-gray-900">Notfälle</h2>
-                  <span className="px-2 py-0.5 bg-red-100 text-red-700 rounded-full text-xs font-medium">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-rose-500/20">
+                    <AlertTriangle className="h-5 w-5 text-rose-400" />
+                  </div>
+                  <h2 className="font-semibold text-white text-lg">Notfälle</h2>
+                  <span className="px-2.5 py-1 bg-rose-500/20 text-rose-400 rounded-full text-xs font-bold">
                     {emergencies.length}
                   </span>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {emergencies.map(request => (
                     <RequestCard
                       key={request.id}
@@ -526,14 +559,16 @@ export default function StaffDashboard() {
 
             {/* Pending Requests */}
             <div>
-              <div className="flex items-center gap-2 mb-3">
-                <Bell className="h-5 w-5 text-blue-500" />
-                <h2 className="font-semibold text-gray-900">Wartende Anfragen</h2>
-                <span className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-lg bg-violet-500/20">
+                  <Bell className="h-5 w-5 text-violet-400" />
+                </div>
+                <h2 className="font-semibold text-white text-lg">Wartende Anfragen</h2>
+                <span className="px-2.5 py-1 bg-violet-500/20 text-violet-400 rounded-full text-xs font-bold">
                   {pendingRequests.filter(r => r.priority < 9).length}
                 </span>
               </div>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {pendingRequests
                   .filter(r => r.priority < 9)
                   .filter(r => selectedFloor === null || r.floor === selectedFloor)
@@ -546,9 +581,9 @@ export default function StaffDashboard() {
                     />
                   ))}
                 {pendingRequests.filter(r => r.priority < 9).filter(r => selectedFloor === null || r.floor === selectedFloor).length === 0 && (
-                  <div className="bg-white rounded-xl border border-gray-200 p-8 text-center text-gray-500">
-                    <CheckCircle className="h-12 w-12 mx-auto mb-3 text-green-300" />
-                    <p>Keine wartenden Anfragen</p>
+                  <div className="bg-zinc-900/60 backdrop-blur-sm rounded-2xl border border-white/10 p-12 text-center">
+                    <CheckCircle className="h-12 w-12 mx-auto mb-4 text-emerald-500/50" />
+                    <p className="text-zinc-400">Keine wartenden Anfragen</p>
                   </div>
                 )}
               </div>
@@ -557,14 +592,16 @@ export default function StaffDashboard() {
             {/* My Active Requests */}
             {myRequests.length > 0 && (
               <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <User className="h-5 w-5 text-orange-500" />
-                  <h2 className="font-semibold text-gray-900">Meine aktiven Anfragen</h2>
-                  <span className="px-2 py-0.5 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-amber-500/20">
+                    <User className="h-5 w-5 text-amber-400" />
+                  </div>
+                  <h2 className="font-semibold text-white text-lg">Meine aktiven Anfragen</h2>
+                  <span className="px-2.5 py-1 bg-amber-500/20 text-amber-400 rounded-full text-xs font-bold">
                     {myRequests.length}
                   </span>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {myRequests.map(request => (
                     <RequestCard
                       key={request.id}
@@ -580,21 +617,27 @@ export default function StaffDashboard() {
           {/* Right Column - Team & Quick Actions */}
           <div className="space-y-6">
             {/* Quick Actions */}
-            <div className="bg-white rounded-xl border border-gray-200 p-4">
-              <h3 className="font-semibold text-gray-900 mb-3">Dokumentation</h3>
+            <div className="bg-zinc-900/60 backdrop-blur-sm rounded-2xl border border-white/10 p-5">
+              <h3 className="font-semibold text-white mb-4">Dokumentation</h3>
               <Link href="/log">
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 h-auto py-4 flex-col gap-2 mb-3">
+                <Button className="w-full bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-violet-600 hover:to-fuchsia-700 text-white h-auto py-4 rounded-xl flex-col gap-2 mb-4 shadow-lg shadow-violet-500/25">
                   <FileText className="h-6 w-6" />
-                  <span className="font-medium">Tagesprotokoll</span>
-                  <span className="text-xs text-blue-200">Alle Anfragen exportieren</span>
+                  <span className="font-semibold">Tagesprotokoll</span>
+                  <span className="text-xs text-violet-200">Alle Anfragen exportieren</span>
                 </Button>
               </Link>
-              <div className="grid grid-cols-2 gap-2">
-                <Button variant="outline" className="h-auto py-3 flex-col gap-1">
-                  <Calendar className="h-5 w-5" />
+              <div className="grid grid-cols-2 gap-3">
+                <Button 
+                  variant="outline" 
+                  className="h-auto py-4 flex-col gap-2 border-white/10 text-zinc-300 hover:bg-white/5 hover:border-violet-500/30 rounded-xl"
+                >
+                  <Calendar className="h-5 w-5 text-violet-400" />
                   <span className="text-xs">Rundgang</span>
                 </Button>
-                <Button variant="outline" className="h-auto py-3 flex-col gap-1 text-red-600 border-red-200 hover:bg-red-50">
+                <Button 
+                  variant="outline" 
+                  className="h-auto py-4 flex-col gap-2 border-rose-500/30 text-rose-400 hover:bg-rose-500/10 hover:border-rose-500/50 rounded-xl"
+                >
                   <AlertTriangle className="h-5 w-5" />
                   <span className="text-xs">Notfall</span>
                 </Button>
@@ -602,40 +645,41 @@ export default function StaffDashboard() {
             </div>
 
             {/* Team Status */}
-            <div className="bg-white rounded-xl border border-gray-200 p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-gray-900">Team im Dienst</h3>
-                <span className="text-sm text-gray-500">{staff.filter(s => s.status !== 'offline').length} aktiv</span>
+            <div className="bg-zinc-900/60 backdrop-blur-sm rounded-2xl border border-white/10 p-5">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold text-white">Team im Dienst</h3>
+                <span className="text-sm text-zinc-500">{staff.filter(s => s.status !== 'offline').length} aktiv</span>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {staff
                   .filter(s => s.status !== 'offline')
                   .filter(s => selectedFloor === null || s.floor === selectedFloor)
                   .map(member => (
-                    <StaffCard key={member.id} member={member} onSelect={() => {}} />
+                    <StaffCard key={member.id} member={member} />
                   ))}
               </div>
             </div>
 
             {/* Today's Summary */}
-            <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl p-4 text-white">
-              <h3 className="font-semibold mb-3">Tagesübersicht</h3>
-              <div className="space-y-2 text-sm">
+            <div className="relative overflow-hidden bg-gradient-to-br from-violet-600 to-fuchsia-700 rounded-2xl p-5 text-white shadow-xl shadow-violet-500/20">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+              <h3 className="font-semibold mb-4 relative">Tagesübersicht</h3>
+              <div className="space-y-3 text-sm relative">
                 <div className="flex justify-between">
-                  <span className="text-blue-100">Anfragen gesamt</span>
-                  <span className="font-medium">47</span>
+                  <span className="text-violet-200">Anfragen gesamt</span>
+                  <span className="font-bold">47</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-blue-100">Durchschnittl. Reaktion</span>
-                  <span className="font-medium">3.8 min</span>
+                  <span className="text-violet-200">Durchschnittl. Reaktion</span>
+                  <span className="font-bold">3.8 min</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-blue-100">Notfälle bearbeitet</span>
-                  <span className="font-medium">3</span>
+                  <span className="text-violet-200">Notfälle bearbeitet</span>
+                  <span className="font-bold">3</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-blue-100">Zufriedenheit</span>
-                  <span className="font-medium">96%</span>
+                  <span className="text-violet-200">Zufriedenheit</span>
+                  <span className="font-bold">96%</span>
                 </div>
               </div>
             </div>
@@ -644,11 +688,14 @@ export default function StaffDashboard() {
       </main>
 
       {/* Demo Banner */}
-      <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-auto">
-        <div className="bg-blue-900 text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3">
-          <Zap className="h-5 w-5 text-yellow-400" />
+      <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-auto z-50">
+        <div className="bg-zinc-900/90 backdrop-blur-xl border border-white/10 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+          <div className="p-1.5 rounded-lg bg-amber-500/20">
+            <Zap className="h-4 w-4 text-amber-400" />
+          </div>
           <span className="text-sm">
-            <strong>Demo-Modus</strong> — Beispieldaten für Vorführungszwecke
+            <strong className="text-white">Demo-Modus</strong>
+            <span className="text-zinc-400"> — Beispieldaten für Vorführungszwecke</span>
           </span>
         </div>
       </div>

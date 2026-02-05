@@ -1,44 +1,57 @@
-import { Metadata } from 'next';
+'use client';
+
 import { 
   Shield, 
   Lock, 
   Server, 
   Eye, 
   FileCheck, 
-  Building2,
   CheckCircle,
   ArrowRight,
   Globe,
   Key,
   Database,
-  AlertTriangle
+  AlertTriangle,
+  Fingerprint,
+  ShieldCheck
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
-export const metadata: Metadata = {
-  title: 'Sicherheit & Datenschutz - PflegeAI',
-  description: 'Erfahren Sie, wie PflegeAI Ihre Daten schützt. DSGVO-konform, deutsche Server, Ende-zu-Ende-Verschlüsselung.',
-};
-
 export default function SicherheitPage() {
   return (
-    <>
+    <div className="bg-[#0a0a0b]">
       {/* Hero */}
-      <section className="pt-24 pb-16 lg:pt-32 lg:pb-24">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="relative min-h-[70vh] flex items-center overflow-hidden pt-24 pb-16 lg:pt-32 lg:pb-24">
+        {/* Gradient orbs */}
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-emerald-600/20 rounded-full blur-[120px] animate-pulse-slow" />
+        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-teal-600/15 rounded-full blur-[100px]" />
+        
+        {/* Grid pattern */}
+        <div 
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
+            backgroundSize: '64px 64px'
+          }}
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-teal-50 to-emerald-50 border border-teal-200/50 mb-8">
-              <Shield className="h-4 w-4 text-teal-600" />
-              <span className="text-sm font-medium text-teal-700">Sicherheit & Datenschutz</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8">
+              <Shield className="h-4 w-4 text-emerald-400" />
+              <span className="text-sm text-zinc-300">Sicherheit & Datenschutz</span>
             </div>
             
-            <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1]">
-              Ihre Daten sind bei uns{' '}
-              <span className="text-teal-600">sicher</span>
+            <h1 className="text-4xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[0.95]">
+              <span className="text-white">Ihre Daten sind bei uns</span>
+              <br />
+              <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent">
+                sicher.
+              </span>
             </h1>
             
-            <p className="mt-6 text-xl text-slate-600 leading-relaxed">
+            <p className="mt-8 text-xl text-zinc-400 leading-relaxed max-w-2xl mx-auto">
               Gesundheitsdaten verdienen höchsten Schutz. PflegeAI wurde von Grund auf 
               mit Datenschutz by Design entwickelt — für den deutschen Markt.
             </p>
@@ -47,26 +60,26 @@ export default function SicherheitPage() {
       </section>
 
       {/* Trust Badges */}
-      <section className="pb-24">
+      <section className="relative py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <TrustBadge
-              icon={<Shield className="h-8 w-8" />}
+              icon={<Shield className="h-7 w-7" />}
               title="DSGVO-konform"
               description="Vollständige Einhaltung der EU-Datenschutzverordnung"
             />
             <TrustBadge
-              icon={<Server className="h-8 w-8" />}
+              icon={<Server className="h-7 w-7" />}
               title="Deutsche Server"
               description="Alle Daten werden ausschließlich in Deutschland verarbeitet"
             />
             <TrustBadge
-              icon={<Lock className="h-8 w-8" />}
+              icon={<Lock className="h-7 w-7" />}
               title="Ende-zu-Ende"
               description="Verschlüsselung aller Daten während Übertragung und Speicherung"
             />
             <TrustBadge
-              icon={<FileCheck className="h-8 w-8" />}
+              icon={<FileCheck className="h-7 w-7" />}
               title="ISO 27001"
               description="Zertifiziertes Informationssicherheits-Management"
             />
@@ -75,13 +88,14 @@ export default function SicherheitPage() {
       </section>
 
       {/* Data Flow Visualization */}
-      <section className="py-24 bg-white">
+      <section className="relative py-32">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">
-              So schützen wir Ihre Daten
+          <div className="text-center mb-20">
+            <span className="text-sm font-semibold text-emerald-400 tracking-wider uppercase">Datensicherheit</span>
+            <h2 className="mt-4 text-4xl lg:text-5xl font-bold text-white tracking-tight">
+              So schützen wir Ihre Daten.
             </h2>
-            <p className="mt-4 text-lg text-slate-600">
+            <p className="mt-6 text-lg text-zinc-400">
               Transparenz über jeden Schritt des Datenflusses
             </p>
           </div>
@@ -122,36 +136,39 @@ export default function SicherheitPage() {
       </section>
 
       {/* Detailed Security Features */}
-      <section className="py-24 bg-slate-900">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="relative py-32 bg-gradient-to-b from-[#0a0a0b] to-[#0c0c0e]">
+        {/* Subtle gradient orb */}
+        <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-emerald-600/10 rounded-full blur-[100px] -translate-y-1/2" />
+        
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             <div>
-              <span className="text-sm font-semibold text-teal-400 tracking-wider uppercase">Technische Maßnahmen</span>
-              <h2 className="mt-4 text-3xl lg:text-4xl font-bold text-white">
-                Sicherheit auf allen Ebenen
+              <span className="text-sm font-semibold text-emerald-400 tracking-wider uppercase">Technische Maßnahmen</span>
+              <h2 className="mt-4 text-3xl lg:text-4xl font-bold text-white tracking-tight">
+                Sicherheit auf allen Ebenen.
               </h2>
-              <p className="mt-6 text-lg text-slate-400 leading-relaxed">
+              <p className="mt-6 text-lg text-zinc-400 leading-relaxed">
                 Mehrschichtige Sicherheitsarchitektur zum Schutz sensibler Gesundheitsdaten.
               </p>
 
               <div className="mt-12 space-y-8">
                 <SecurityFeature
-                  icon={<Key />}
+                  icon={<Key className="h-5 w-5" />}
                   title="Verschlüsselung"
                   description="AES-256 für Daten im Ruhezustand, TLS 1.3 für Daten in Übertragung. Keine unverschlüsselten Daten — niemals."
                 />
                 <SecurityFeature
-                  icon={<Eye />}
+                  icon={<Eye className="h-5 w-5" />}
                   title="Zugriffskontrolle"
                   description="Rollenbasiertes Berechtigungssystem. Jeder Zugriff wird protokolliert. Zwei-Faktor-Authentifizierung für alle Benutzer."
                 />
                 <SecurityFeature
-                  icon={<Database />}
+                  icon={<Database className="h-5 w-5" />}
                   title="Datenisolation"
                   description="Strenge Mandantentrennung. Ihre Daten sind physisch und logisch von anderen Kunden isoliert."
                 />
                 <SecurityFeature
-                  icon={<AlertTriangle />}
+                  icon={<AlertTriangle className="h-5 w-5" />}
                   title="Monitoring"
                   description="24/7 Sicherheitsüberwachung. Automatische Erkennung und Abwehr von Bedrohungen. Sofortige Benachrichtigung bei Anomalien."
                 />
@@ -159,10 +176,13 @@ export default function SicherheitPage() {
             </div>
 
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-teal-500/20 to-emerald-500/20 rounded-3xl blur-3xl" />
-              <div className="relative bg-slate-800 rounded-3xl p-8 border border-slate-700">
-                <h3 className="text-xl font-bold text-white mb-6">Compliance & Zertifizierungen</h3>
-                <div className="space-y-4">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 rounded-3xl blur-3xl" />
+              <div className="relative bg-white/[0.03] backdrop-blur-sm rounded-3xl p-8 border border-white/10">
+                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                  <ShieldCheck className="h-6 w-6 text-emerald-400" />
+                  Compliance & Zertifizierungen
+                </h3>
+                <div className="space-y-1">
                   <ComplianceItem name="DSGVO" status="Vollständig konform" />
                   <ComplianceItem name="ISO 27001" status="Zertifiziert" />
                   <ComplianceItem name="BSI C5" status="In Prüfung" />
@@ -170,8 +190,8 @@ export default function SicherheitPage() {
                   <ComplianceItem name="Technische & Org. Maßnahmen" status="Dokumentiert" />
                 </div>
                 
-                <div className="mt-8 p-4 bg-slate-700/50 rounded-xl">
-                  <p className="text-sm text-slate-400">
+                <div className="mt-8 p-4 bg-white/[0.02] rounded-xl border border-white/5">
+                  <p className="text-sm text-zinc-500">
                     Alle Compliance-Dokumente stehen unseren Kunden zur Verfügung. 
                     Auf Anfrage führen wir gerne ein Security-Audit durch.
                   </p>
@@ -183,13 +203,14 @@ export default function SicherheitPage() {
       </section>
 
       {/* DSGVO Rights */}
-      <section className="py-24 bg-white">
+      <section className="relative py-32">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">
+            <span className="text-sm font-semibold text-emerald-400 tracking-wider uppercase">Betroffenenrechte</span>
+            <h2 className="mt-4 text-4xl lg:text-5xl font-bold text-white tracking-tight">
               Ihre DSGVO-Rechte
             </h2>
-            <p className="mt-4 text-lg text-slate-600">
+            <p className="mt-4 text-lg text-zinc-400">
               Wir unterstützen Sie bei der Ausübung aller Betroffenenrechte
             </p>
           </div>
@@ -223,48 +244,41 @@ export default function SicherheitPage() {
         </div>
       </section>
 
-      {/* Data Location Map */}
-      <section className="py-24 bg-[#fafbfc]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      {/* Data Location */}
+      <section className="relative py-32">
+        {/* Gradient orb */}
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[120px]" />
+        
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="text-sm font-semibold text-teal-600 tracking-wider uppercase">Datenstandort</span>
-              <h2 className="mt-4 text-3xl lg:text-4xl font-bold text-slate-900">
+              <span className="text-sm font-semibold text-emerald-400 tracking-wider uppercase">Datenstandort</span>
+              <h2 className="mt-4 text-3xl lg:text-4xl font-bold text-white tracking-tight">
                 100% Made in Germany
               </h2>
-              <p className="mt-6 text-lg text-slate-600 leading-relaxed">
+              <p className="mt-6 text-lg text-zinc-400 leading-relaxed">
                 Alle Daten werden ausschließlich in deutschen Rechenzentren verarbeitet 
                 und gespeichert. Keine Datenübermittlung in Drittländer.
               </p>
 
               <ul className="mt-8 space-y-4">
-                <DataLocationItem 
-                  text="Rechenzentren in Frankfurt und München" 
-                />
-                <DataLocationItem 
-                  text="Georedundante Backups innerhalb Deutschlands" 
-                />
-                <DataLocationItem 
-                  text="Keine US-amerikanischen Cloud-Dienste" 
-                />
-                <DataLocationItem 
-                  text="Kein Zugriff durch ausländische Behörden möglich" 
-                />
+                <DataLocationItem text="Rechenzentren in Frankfurt und München" />
+                <DataLocationItem text="Georedundante Backups innerhalb Deutschlands" />
+                <DataLocationItem text="Keine US-amerikanischen Cloud-Dienste" />
+                <DataLocationItem text="Kein Zugriff durch ausländische Behörden möglich" />
               </ul>
             </div>
 
             <div className="relative">
-              <div className="bg-gradient-to-br from-slate-100 to-slate-50 rounded-3xl p-12 border border-slate-200">
-                <div className="text-center">
-                  <Globe className="h-16 w-16 text-teal-600 mx-auto mb-6" />
-                  <div className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-teal-600 to-emerald-600 mb-4">
-                    🇩🇪
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2">Deutschland</h3>
-                  <p className="text-slate-600">
-                    Entwickelt, gehostet und betrieben in Deutschland
-                  </p>
+              <div className="bg-white/[0.03] backdrop-blur-sm rounded-3xl p-12 border border-white/10 text-center">
+                <div className="inline-flex items-center justify-center h-20 w-20 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 mb-6">
+                  <Globe className="h-10 w-10 text-emerald-400" />
                 </div>
+                <div className="text-7xl mb-6">🇩🇪</div>
+                <h3 className="text-2xl font-bold text-white mb-2">Deutschland</h3>
+                <p className="text-zinc-400">
+                  Entwickelt, gehostet und betrieben<br />in Deutschland
+                </p>
               </div>
             </div>
           </div>
@@ -272,32 +286,40 @@ export default function SicherheitPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 bg-gradient-to-br from-teal-600 to-emerald-700">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-white">
+      <section className="relative py-32 overflow-hidden">
+        {/* Gradient orbs */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-600/10 rounded-full blur-[150px]" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8">
+            <Fingerprint className="h-4 w-4 text-emerald-400" />
+            <span className="text-sm text-zinc-300">Kontakt</span>
+          </div>
+          
+          <h2 className="text-4xl lg:text-5xl font-bold text-white tracking-tight">
             Fragen zur Sicherheit?
           </h2>
-          <p className="mt-6 text-xl text-teal-100 max-w-2xl mx-auto">
+          <p className="mt-6 text-xl text-zinc-400 max-w-2xl mx-auto">
             Unser Datenschutzteam steht Ihnen für alle Fragen zur Verfügung. 
             Wir führen gerne ein Security-Assessment durch.
           </p>
 
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="mailto:datenschutz@pflegeai.de">
-              <Button size="lg" className="w-full sm:w-auto bg-white text-teal-700 hover:bg-teal-50 text-lg px-8 py-6 rounded-2xl shadow-xl">
+              <Button size="lg" className="w-full sm:w-auto bg-white text-black hover:bg-zinc-200 text-base px-8 py-6 rounded-full font-semibold group transition-all hover:scale-[1.02]">
                 Datenschutzbeauftragten kontaktieren
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
             <Link href="/resident">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg px-8 py-6 rounded-2xl border-white/30 text-white hover:bg-white/10">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto text-white border-white/20 hover:bg-white/10 hover:border-white/30 text-base px-8 py-6 rounded-full">
                 Demo ansehen
               </Button>
             </Link>
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 
@@ -315,12 +337,12 @@ function TrustBadge({
   description: string;
 }) {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm text-center hover:shadow-lg hover:border-teal-200 transition-all">
-      <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-teal-50 to-emerald-50 text-teal-600 flex items-center justify-center mx-auto mb-4">
+    <div className="group bg-white/[0.03] backdrop-blur-sm rounded-2xl p-6 border border-white/10 text-center hover:border-emerald-500/30 hover:bg-white/[0.05] transition-all">
+      <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
         {icon}
       </div>
-      <h3 className="text-lg font-bold text-slate-900 mb-2">{title}</h3>
-      <p className="text-sm text-slate-600">{description}</p>
+      <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
+      <p className="text-sm text-zinc-400">{description}</p>
     </div>
   );
 }
@@ -337,18 +359,19 @@ function SecurityStep({
   features: string[];
 }) {
   return (
-    <div className="relative">
-      <div className="bg-gradient-to-br from-slate-50 to-white rounded-2xl p-8 border border-slate-200 h-full">
+    <div className="relative group">
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-teal-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="relative bg-white/[0.03] backdrop-blur-sm rounded-3xl p-8 border border-white/10 h-full group-hover:border-emerald-500/20 transition-colors">
         <div className="flex items-center gap-4 mb-6">
-          <span className="text-5xl font-bold text-teal-100">{number}</span>
-          <h3 className="text-2xl font-bold text-slate-900">{title}</h3>
+          <span className="text-5xl font-bold bg-gradient-to-br from-emerald-400/30 to-teal-400/30 bg-clip-text text-transparent">{number}</span>
+          <h3 className="text-2xl font-bold text-white">{title}</h3>
         </div>
-        <p className="text-slate-600 mb-6">{description}</p>
+        <p className="text-zinc-400 mb-6">{description}</p>
         <ul className="space-y-3">
           {features.map((feature, i) => (
             <li key={i} className="flex items-center gap-2 text-sm">
-              <CheckCircle className="h-4 w-4 text-teal-500 flex-shrink-0" />
-              <span className="text-slate-700">{feature}</span>
+              <CheckCircle className="h-4 w-4 text-emerald-400 flex-shrink-0" />
+              <span className="text-zinc-300">{feature}</span>
             </li>
           ))}
         </ul>
@@ -368,12 +391,12 @@ function SecurityFeature({
 }) {
   return (
     <div className="flex gap-4">
-      <div className="h-12 w-12 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center flex-shrink-0">
+      <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0">
         {icon}
       </div>
       <div>
         <h3 className="text-lg font-semibold text-white">{title}</h3>
-        <p className="mt-1 text-slate-400">{description}</p>
+        <p className="mt-1 text-zinc-400">{description}</p>
       </div>
     </div>
   );
@@ -381,9 +404,9 @@ function SecurityFeature({
 
 function ComplianceItem({ name, status }: { name: string; status: string }) {
   return (
-    <div className="flex items-center justify-between py-3 border-b border-slate-700 last:border-0">
-      <span className="text-slate-300">{name}</span>
-      <span className="text-sm px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400">
+    <div className="flex items-center justify-between py-3 border-b border-white/5 last:border-0">
+      <span className="text-zinc-300">{name}</span>
+      <span className="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 font-medium">
         {status}
       </span>
     </div>
@@ -392,12 +415,12 @@ function ComplianceItem({ name, status }: { name: string; status: string }) {
 
 function GDPRRight({ title, description }: { title: string; description: string }) {
   return (
-    <div className="bg-gradient-to-br from-slate-50 to-white rounded-2xl p-6 border border-slate-200">
-      <div className="h-10 w-10 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center mb-4">
+    <div className="group bg-white/[0.03] backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-emerald-500/20 hover:bg-white/[0.05] transition-all">
+      <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 text-emerald-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
         <CheckCircle className="h-5 w-5" />
       </div>
-      <h3 className="text-lg font-bold text-slate-900 mb-2">{title}</h3>
-      <p className="text-sm text-slate-600">{description}</p>
+      <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
+      <p className="text-sm text-zinc-400">{description}</p>
     </div>
   );
 }
@@ -405,8 +428,8 @@ function GDPRRight({ title, description }: { title: string; description: string 
 function DataLocationItem({ text }: { text: string }) {
   return (
     <li className="flex items-center gap-3">
-      <CheckCircle className="h-5 w-5 text-teal-500 flex-shrink-0" />
-      <span className="text-slate-700">{text}</span>
+      <CheckCircle className="h-5 w-5 text-emerald-400 flex-shrink-0" />
+      <span className="text-zinc-300">{text}</span>
     </li>
   );
 }
