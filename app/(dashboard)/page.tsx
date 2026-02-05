@@ -1,130 +1,292 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, CreditCard, Database } from 'lucide-react';
-import { Terminal } from './terminal';
+import { ArrowRight, Shield, Clock, Brain, Users, CheckCircle, Phone } from 'lucide-react';
+import Link from 'next/link';
 
 export default function HomePage() {
   return (
     <main>
-      <section className="py-20">
+      {/* Hero Section */}
+      <section className="py-16 lg:py-24 bg-gradient-to-b from-blue-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-            <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
-              <h1 className="text-4xl font-bold text-gray-900 tracking-tight sm:text-5xl md:text-6xl">
-                Build Your SaaS
-                <span className="block text-orange-500">Faster Than Ever</span>
+          <div className="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
+            <div className="lg:col-span-6">
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6">
+                <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                KI-gestützte Pflegeassistenz
+              </div>
+              <h1 className="text-4xl font-bold text-gray-900 tracking-tight sm:text-5xl lg:text-6xl">
+                Schnellere Reaktion.
+                <span className="block text-blue-600 mt-2">Bessere Pflege.</span>
               </h1>
-              <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                Launch your SaaS product in record time with our powerful,
-                ready-to-use template. Packed with modern technologies and
-                essential integrations.
+              <p className="mt-6 text-xl text-gray-600 leading-relaxed">
+                PflegeAI verbindet Bewohner und Pflegekräfte durch intelligente 
+                Sprachassistenz. Anfragen werden automatisch priorisiert — 
+                damit Ihr Team immer weiß, wo Hilfe am dringendsten benötigt wird.
               </p>
-              <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
-                <a
-                  href="https://vercel.com/templates/next.js/next-js-saas-starter"
-                  target="_blank"
-                >
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="text-lg rounded-full"
-                  >
-                    Deploy your own
+              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                <Link href="/resident">
+                  <Button size="lg" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-lg px-8">
+                    Live-Demo testen
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
-                </a>
+                </Link>
+                <Link href="/requests">
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg px-8">
+                    Dashboard ansehen
+                  </Button>
+                </Link>
+              </div>
+              <div className="mt-8 flex items-center gap-6 text-sm text-gray-500">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span>DSGVO-konform</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span>Deutsche Server</span>
+                </div>
               </div>
             </div>
-            <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
-              <Terminal />
+            <div className="mt-12 lg:mt-0 lg:col-span-6">
+              {/* Demo Preview */}
+              <div className="relative">
+                <div className="bg-gradient-to-br from-blue-900 to-blue-950 rounded-2xl shadow-2xl overflow-hidden">
+                  <div className="p-8 text-center text-white">
+                    <div className="w-32 h-32 mx-auto rounded-full bg-red-600 flex items-center justify-center mb-6 shadow-lg">
+                      <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                      </svg>
+                    </div>
+                    <p className="text-2xl font-bold mb-2">HILFE</p>
+                    <p className="text-blue-200">Drücken & Sprechen</p>
+                  </div>
+                  <div className="bg-blue-800/50 p-4 text-center">
+                    <p className="text-sm text-blue-200">Bewohner-Ansicht — einfach & barrierefrei</p>
+                  </div>
+                </div>
+                {/* Notification Badge */}
+                <div className="absolute -top-4 -right-4 bg-white rounded-xl shadow-lg p-4 max-w-xs">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                      <span className="text-red-600 font-bold text-sm">🔴</span>
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900 text-sm">Neue Anfrage: Zi. 214</p>
+                      <p className="text-xs text-gray-500">Priorität: HOCH — Toilettengang</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-white w-full">
+      {/* Problem/Solution Section */}
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-3 lg:gap-8">
-            <div>
-              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <svg viewBox="0 0 24 24" className="h-6 w-6">
-                  <path
-                    fill="currentColor"
-                    d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"
-                  />
-                </svg>
-              </div>
-              <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Next.js and React
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Leverage the power of modern web technologies for optimal
-                  performance and developer experience.
-                </p>
-              </div>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+              Das Problem, das wir lösen
+            </h2>
+            <p className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
+              Pflegekräfte verbringen zu viel Zeit mit der Koordination von Anfragen. 
+              PflegeAI automatisiert die Priorisierung, damit Ihr Team sich auf das 
+              Wesentliche konzentrieren kann: die Pflege.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Before */}
+            <div className="bg-red-50 rounded-2xl p-8 border border-red-100">
+              <h3 className="text-lg font-semibold text-red-800 mb-4">❌ Ohne PflegeAI</h3>
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-start gap-2">
+                  <span className="text-red-500 mt-1">•</span>
+                  <span>Klingel zeigt nicht, wer dringend Hilfe braucht</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-red-500 mt-1">•</span>
+                  <span>Pflegekräfte laufen unnötige Wege</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-red-500 mt-1">•</span>
+                  <span>Bewohner warten lange auf einfache Anfragen</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-red-500 mt-1">•</span>
+                  <span>Keine Dokumentation von Anfragen</span>
+                </li>
+              </ul>
             </div>
-
-            <div className="mt-10 lg:mt-0">
-              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <Database className="h-6 w-6" />
-              </div>
-              <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Postgres and Drizzle ORM
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Robust database solution with an intuitive ORM for efficient
-                  data management and scalability.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-10 lg:mt-0">
-              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <CreditCard className="h-6 w-6" />
-              </div>
-              <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Stripe Integration
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Seamless payment processing and subscription management with
-                  industry-leading Stripe integration.
-                </p>
-              </div>
+            
+            {/* After */}
+            <div className="bg-green-50 rounded-2xl p-8 border border-green-100">
+              <h3 className="text-lg font-semibold text-green-800 mb-4">✓ Mit PflegeAI</h3>
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">•</span>
+                  <span>KI priorisiert: Notfall vor Wasserglas</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">•</span>
+                  <span>Gezielte Zuweisung an verfügbare Pflegekräfte</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">•</span>
+                  <span>Bewohner erhalten sofort Bestätigung</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">•</span>
+                  <span>Automatische Dokumentation & Analyse</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Features Section */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-                Ready to launch your SaaS?
-              </h2>
-              <p className="mt-3 max-w-3xl text-lg text-gray-500">
-                Our template provides everything you need to get your SaaS up
-                and running quickly. Don't waste time on boilerplate - focus on
-                what makes your product unique.
-              </p>
-            </div>
-            <div className="mt-8 lg:mt-0 flex justify-center lg:justify-end">
-              <a href="https://github.com/nextjs/saas-starter" target="_blank">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-lg rounded-full"
-                >
-                  View the code
-                  <ArrowRight className="ml-3 h-6 w-6" />
-                </Button>
-              </a>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+              So funktioniert PflegeAI
+            </h2>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <FeatureCard
+              icon={<Brain className="h-8 w-8" />}
+              title="KI-Sprachassistenz"
+              description="Bewohner sprechen ihre Anfrage einfach aus. Die KI versteht natürliche Sprache und klassifiziert automatisch."
+            />
+            <FeatureCard
+              icon={<Clock className="h-8 w-8" />}
+              title="Intelligente Priorisierung"
+              description="Notfälle werden sofort eskaliert. Routineanfragen werden effizient eingeplant. Keine wichtige Anfrage geht unter."
+            />
+            <FeatureCard
+              icon={<Users className="h-8 w-8" />}
+              title="Team-Dashboard"
+              description="Echtzeit-Übersicht aller Anfragen. Zuweisung per Klick. Transparente Dokumentation für MDK-Prüfungen."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-3xl p-8 lg:p-12">
+            <div className="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+              <div className="text-white">
+                <h2 className="text-3xl font-bold sm:text-4xl">
+                  Datenschutz & Sicherheit
+                </h2>
+                <p className="mt-4 text-lg text-blue-100 leading-relaxed">
+                  Wir wissen, dass Gesundheitsdaten sensibel sind. Deshalb setzen wir 
+                  auf höchste Sicherheitsstandards — entwickelt für den deutschen Markt.
+                </p>
+                <ul className="mt-6 space-y-3">
+                  <li className="flex items-center gap-3">
+                    <Shield className="h-5 w-5 text-blue-200" />
+                    <span>DSGVO-konforme Datenverarbeitung</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Shield className="h-5 w-5 text-blue-200" />
+                    <span>Hosting auf deutschen Servern</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Shield className="h-5 w-5 text-blue-200" />
+                    <span>Ende-zu-Ende-Verschlüsselung</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Shield className="h-5 w-5 text-blue-200" />
+                    <span>Regelmäßige Sicherheitsaudits</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="mt-8 lg:mt-0 flex justify-center">
+                <div className="bg-white/10 backdrop-blur rounded-2xl p-8 text-center">
+                  <div className="text-6xl font-bold text-white">100%</div>
+                  <div className="text-blue-200 mt-2">Made in Germany</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+            Bereit für bessere Pflege?
+          </h2>
+          <p className="mt-4 text-xl text-gray-600">
+            Vereinbaren Sie eine kostenlose Demo und sehen Sie, wie PflegeAI 
+            Ihren Pflegealltag verbessern kann.
+          </p>
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8">
+              <Phone className="mr-2 h-5 w-5" />
+              Demo vereinbaren
+            </Button>
+            <Link href="/resident">
+              <Button size="lg" variant="outline" className="text-lg px-8">
+                Selbst ausprobieren
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
+          <p className="mt-6 text-sm text-gray-500">
+            Keine Kreditkarte erforderlich • 14 Tage kostenlos testen
+          </p>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-gray-400 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+                <Brain className="h-5 w-5 text-white" />
+              </div>
+              <span className="text-white font-bold">PflegeAI</span>
+            </div>
+            <div className="flex gap-6 text-sm">
+              <a href="#" className="hover:text-white transition-colors">Datenschutz</a>
+              <a href="#" className="hover:text-white transition-colors">Impressum</a>
+              <a href="#" className="hover:text-white transition-colors">Kontakt</a>
+            </div>
+            <div className="text-sm">
+              © 2025 PflegeAI. Alle Rechte vorbehalten.
+            </div>
+          </div>
+        </div>
+      </footer>
     </main>
+  );
+}
+
+function FeatureCard({ 
+  icon, 
+  title, 
+  description 
+}: { 
+  icon: React.ReactNode; 
+  title: string; 
+  description: string;
+}) {
+  return (
+    <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+      <div className="w-14 h-14 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-6">
+        {icon}
+      </div>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">{title}</h3>
+      <p className="text-gray-600 leading-relaxed">{description}</p>
+    </div>
   );
 }

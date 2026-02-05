@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { Mic, MicOff, Phone, Heart, Volume2, CheckCircle, Loader2 } from 'lucide-react';
+import { useState } from 'react';
+import { Mic, MicOff, Phone, CheckCircle, Loader2, AlertTriangle } from 'lucide-react';
 
 /**
  * Bewohner-Ansicht / Resident View
@@ -15,60 +15,92 @@ import { Mic, MicOff, Phone, Heart, Volume2, CheckCircle, Loader2 } from 'lucide
  * - Large, legible fonts (20px+)
  */
 
-type Status = 'idle' | 'listening' | 'processing' | 'sent' | 'help_coming';
+type Status = 'idle' | 'listening' | 'processing' | 'sent' | 'help_coming' | 'error';
 
 export default function ResidentPage() {
   const [status, setStatus] = useState<Status>('idle');
-  const [transcript, setTranscript] = useState('');
   const [lastMessage, setLastMessage] = useState('');
   const [nurseResponse, setNurseResponse] = useState('');
-  
-  // Simulated responses for demo
-  const demoResponses = [
-    "Guten Tag! Ich habe Ihre Nachricht erhalten. Eine Pflegekraft kommt in wenigen Minuten zu Ihnen.",
-    "Ihre Anfrage wurde weitergeleitet. Anna ist bereits auf dem Weg zu Zimmer 214.",
-    "Ich verstehe, dass Sie Hilfe brauchen. Thomas wird gleich bei Ihnen sein.",
-  ];
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleHelpButton = () => {
+  // Send message to AI backend
+  const sendToAI = async (message: string) => {
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message,
+          context: {
+            room: '214', // In real app: get from user session
+          }
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Verbindung fehlgeschlagen');
+      }
+
+      const data = await response.json();
+      return data.response;
+    } catch (error) {
+      console.error('AI API error:', error);
+      throw error;
+    }
+  };
+
+  const handleHelpButton = async () => {
     setStatus('listening');
-    setTranscript('');
+    setErrorMessage('');
     
-    // Simulate voice recording (in real app: use Web Speech API or Whisper)
-    setTimeout(() => {
+    // Simulate voice recording for 3 seconds
+    // In production: use Web Speech API or Whisper
+    setTimeout(async () => {
       setStatus('processing');
+      setLastMessage('Ich brauche Hilfe');
       
-      // Simulate AI processing
-      setTimeout(() => {
-        setLastMessage('Hilfe angefordert');
-        setNurseResponse(demoResponses[Math.floor(Math.random() * demoResponses.length)]);
+      try {
+        const aiResponse = await sendToAI('Ich brauche Hilfe. Bitte kommen Sie zu mir.');
+        setNurseResponse(aiResponse);
         setStatus('help_coming');
         
-        // Reset after 10 seconds
+        // Reset after 15 seconds
         setTimeout(() => {
           setStatus('idle');
-        }, 10000);
-      }, 2000);
+        }, 15000);
+      } catch (error) {
+        setErrorMessage('Verbindung fehlgeschlagen. Bitte versuchen Sie es erneut.');
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 5000);
+      }
     }, 3000);
   };
 
-  const handleQuickHelp = (type: string) => {
+  const handleQuickHelp = async (type: string, message: string) => {
     setStatus('processing');
     setLastMessage(type);
+    setErrorMessage('');
     
-    setTimeout(() => {
-      setNurseResponse(demoResponses[Math.floor(Math.random() * demoResponses.length)]);
+    try {
+      const aiResponse = await sendToAI(message);
+      setNurseResponse(aiResponse);
       setStatus('help_coming');
       
       setTimeout(() => {
         setStatus('idle');
-      }, 10000);
-    }, 1500);
+      }, 15000);
+    } catch (error) {
+      setErrorMessage('Verbindung fehlgeschlagen. Bitte versuchen Sie es erneut.');
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
   };
 
   const handleCancel = () => {
     setStatus('idle');
-    setTranscript('');
+    setErrorMessage('');
   };
 
   return (
@@ -82,7 +114,7 @@ export default function ResidentPage() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center p-6 gap-8">
         
-        {/* Status Display */}
+        {/* Idle State */}
         {status === 'idle' && (
           <>
             {/* Main Help Button - Very Large, Obvious */}
@@ -106,22 +138,22 @@ export default function ResidentPage() {
                 <QuickButton 
                   icon={<span className="text-3xl">🚰</span>}
                   label="Wasser"
-                  onClick={() => handleQuickHelp('Ich hätte gerne Wasser')}
+                  onClick={() => handleQuickHelp('Wasser', 'Ich hätte gerne ein Glas Wasser.')}
                 />
                 <QuickButton 
                   icon={<span className="text-3xl">🚽</span>}
                   label="Toilette"
-                  onClick={() => handleQuickHelp('Ich muss auf Toilette')}
+                  onClick={() => handleQuickHelp('Toilettengang', 'Ich muss dringend auf die Toilette und brauche Hilfe.')}
                 />
                 <QuickButton 
                   icon={<span className="text-3xl">💊</span>}
                   label="Medikament"
-                  onClick={() => handleQuickHelp('Ich brauche mein Medikament')}
+                  onClick={() => handleQuickHelp('Medikament', 'Ich brauche mein Medikament.')}
                 />
                 <QuickButton 
                   icon={<span className="text-3xl">🛏️</span>}
                   label="Aufstehen"
-                  onClick={() => handleQuickHelp('Ich möchte aufstehen')}
+                  onClick={() => handleQuickHelp('Aufstehen', 'Ich möchte aufstehen und brauche Hilfe.')}
                 />
               </div>
             </div>
@@ -157,6 +189,27 @@ export default function ResidentPage() {
               <p className="text-3xl font-bold">Wird verarbeitet...</p>
               <p className="text-xl text-blue-200 mt-2">Einen Moment bitte</p>
             </div>
+          </div>
+        )}
+
+        {/* Error State */}
+        {status === 'error' && (
+          <div className="text-center space-y-8 max-w-md">
+            <div className="w-48 h-48 rounded-full bg-orange-600 mx-auto flex items-center justify-center border-4 border-orange-400 shadow-2xl">
+              <AlertTriangle className="w-24 h-24" />
+            </div>
+            <div>
+              <p className="text-3xl font-bold text-orange-400">Fehler</p>
+              <p className="text-xl text-blue-200 mt-4 leading-relaxed">
+                {errorMessage}
+              </p>
+            </div>
+            <button
+              onClick={() => setStatus('idle')}
+              className="px-8 py-4 bg-blue-700 hover:bg-blue-600 rounded-2xl text-xl"
+            >
+              Erneut versuchen
+            </button>
           </div>
         )}
 
