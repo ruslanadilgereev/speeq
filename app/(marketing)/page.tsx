@@ -74,10 +74,10 @@ export default function HomePage() {
       <section className="py-12 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <StatItem value="94%" label="Schnellere Reaktion" />
-            <StatItem value="3.2h" label="Zeitersparnis/Tag" />
+            <StatItem value="KI" label="Priorisierung" />
+            <StatItem value="Echtzeit" label="Dokumentation" />
             <StatItem value="100%" label="Anfragen dokumentiert" />
-            <StatItem value="4.9★" label="Bewohner-Zufriedenheit" />
+            <StatItem value="24/7" label="Verfügbar" />
           </div>
         </div>
       </section>
