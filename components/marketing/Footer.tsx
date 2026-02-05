@@ -58,9 +58,9 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="mailto:kontakt@pflegeai.de" className="text-sm hover:text-white transition-colors">
+  <Link href="/kontakt" className="text-sm hover:text-white transition-colors">
                   Kontakt
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
