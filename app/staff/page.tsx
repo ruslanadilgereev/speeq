@@ -20,6 +20,7 @@ import {
   Calendar,
   MessageSquare,
   Volume2,
+  FileText,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -580,19 +581,18 @@ export default function StaffDashboard() {
           <div className="space-y-6">
             {/* Quick Actions */}
             <div className="bg-white rounded-xl border border-gray-200 p-4">
-              <h3 className="font-semibold text-gray-900 mb-3">Schnellaktionen</h3>
+              <h3 className="font-semibold text-gray-900 mb-3">Dokumentation</h3>
+              <Link href="/log">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 h-auto py-4 flex-col gap-2 mb-3">
+                  <FileText className="h-6 w-6" />
+                  <span className="font-medium">Tagesprotokoll</span>
+                  <span className="text-xs text-blue-200">Alle Anfragen exportieren</span>
+                </Button>
+              </Link>
               <div className="grid grid-cols-2 gap-2">
                 <Button variant="outline" className="h-auto py-3 flex-col gap-1">
                   <Calendar className="h-5 w-5" />
                   <span className="text-xs">Rundgang</span>
-                </Button>
-                <Button variant="outline" className="h-auto py-3 flex-col gap-1">
-                  <MessageSquare className="h-5 w-5" />
-                  <span className="text-xs">Übergabe</span>
-                </Button>
-                <Button variant="outline" className="h-auto py-3 flex-col gap-1">
-                  <TrendingUp className="h-5 w-5" />
-                  <span className="text-xs">Bericht</span>
                 </Button>
                 <Button variant="outline" className="h-auto py-3 flex-col gap-1 text-red-600 border-red-200 hover:bg-red-50">
                   <AlertTriangle className="h-5 w-5" />
