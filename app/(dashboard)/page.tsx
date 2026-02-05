@@ -26,13 +26,13 @@ export default function HomePage() {
               <div className="mt-8 flex flex-col sm:flex-row gap-4">
                 <Link href="/resident">
                   <Button size="lg" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-lg px-8">
-                    Live-Demo testen
+                    Bewohner-Demo
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <Link href="/requests">
-                  <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg px-8">
-                    Dashboard ansehen
+                <Link href="/staff">
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg px-8 border-blue-300 hover:bg-blue-50">
+                    Personal-Dashboard
                   </Button>
                 </Link>
               </div>
@@ -229,13 +229,15 @@ export default function HomePage() {
             Ihren Pflegealltag verbessern kann.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8">
-              <Phone className="mr-2 h-5 w-5" />
-              Demo vereinbaren
-            </Button>
-            <Link href="/resident">
+            <Link href="mailto:kontakt@pflegeai.de?subject=Demo-Anfrage">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8">
+                <Phone className="mr-2 h-5 w-5" />
+                Demo vereinbaren
+              </Button>
+            </Link>
+            <Link href="/staff">
               <Button size="lg" variant="outline" className="text-lg px-8">
-                Selbst ausprobieren
+                Personal-Dashboard testen
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>

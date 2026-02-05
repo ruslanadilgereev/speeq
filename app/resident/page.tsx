@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Mic, MicOff, Phone, CheckCircle, Loader2, AlertTriangle } from 'lucide-react';
+import Link from 'next/link';
+import { Mic, MicOff, Phone, CheckCircle, Loader2, AlertTriangle, ArrowLeft, Settings } from 'lucide-react';
 
 /**
  * Bewohner-Ansicht / Resident View
@@ -106,9 +107,19 @@ export default function ResidentPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-blue-950 text-white flex flex-col">
       {/* Header - Simple, clear */}
-      <header className="p-6 text-center border-b border-blue-800">
-        <h1 className="text-2xl font-bold">PflegeAI</h1>
-        <p className="text-blue-200 text-lg mt-1">Ihr Assistent im Pflegeheim</p>
+      <header className="p-4 border-b border-blue-800">
+        <div className="flex items-center justify-between">
+          <Link href="/" className="p-2 -ml-2 text-blue-300 hover:text-white">
+            <ArrowLeft className="h-6 w-6" />
+          </Link>
+          <div className="text-center">
+            <h1 className="text-xl font-bold">PflegeAI</h1>
+            <p className="text-blue-200 text-sm">Zimmer 214</p>
+          </div>
+          <Link href="/staff" className="p-2 -mr-2 text-blue-300 hover:text-white">
+            <Settings className="h-6 w-6" />
+          </Link>
+        </div>
       </header>
 
       {/* Main Content */}

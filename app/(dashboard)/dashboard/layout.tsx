@@ -16,9 +16,9 @@ export default function DashboardLayout({
 
   const navItems = [
     { href: '/dashboard', icon: Users, label: 'Team' },
-    { href: '/dashboard/general', icon: Settings, label: 'General' },
-    { href: '/dashboard/activity', icon: Activity, label: 'Activity' },
-    { href: '/dashboard/security', icon: Shield, label: 'Security' }
+    { href: '/dashboard/general', icon: Settings, label: 'Allgemein' },
+    { href: '/dashboard/activity', icon: Activity, label: 'Aktivität' },
+    { href: '/dashboard/security', icon: Shield, label: 'Sicherheit' }
   ];
 
   return (
@@ -26,7 +26,7 @@ export default function DashboardLayout({
       {/* Mobile header */}
       <div className="lg:hidden flex items-center justify-between bg-white border-b border-gray-200 p-4">
         <div className="flex items-center">
-          <span className="font-medium">Settings</span>
+          <span className="font-medium">Einstellungen</span>
         </div>
         <Button
           className="-mr-3"

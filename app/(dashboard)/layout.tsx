@@ -37,10 +37,10 @@ function UserMenu() {
           href="/pricing"
           className="text-sm font-medium text-gray-700 hover:text-gray-900"
         >
-          Pricing
+          Preise
         </Link>
-        <Button asChild className="rounded-full">
-          <Link href="/sign-up">Sign Up</Link>
+        <Button asChild className="rounded-full bg-blue-600 hover:bg-blue-700">
+          <Link href="/sign-up">Registrieren</Link>
         </Button>
       </>
     );
@@ -113,7 +113,9 @@ function Header() {
           
           {/* Navigation */}
           <nav className="hidden md:flex items-center gap-1">
+            <NavLink href="/staff" icon={Users}>Personal</NavLink>
             <NavLink href="/requests" icon={Bell}>Anfragen</NavLink>
+            <NavLink href="/resident" icon={Home}>Bewohner-Demo</NavLink>
             <NavLink href="/dashboard" icon={Settings}>Einstellungen</NavLink>
           </nav>
           
