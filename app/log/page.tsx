@@ -18,8 +18,7 @@ import { Button } from '@/components/ui/button';
 
 /**
  * Tagesprotokoll / Daily Request Log
- * Simple documentation view for end-of-day reporting
- * Clean, minimal, exportable - as requested by Ruslan
+ * Dark Linear/Vercel themed documentation view
  */
 
 interface LogEntry {
@@ -161,10 +160,10 @@ const generateDemoLog = (date: Date): LogEntry[] => {
 
 function getPriorityStyle(priority: LogEntry['priority']) {
   switch (priority) {
-    case 'emergency': return 'bg-red-100 text-red-700 border-red-200';
-    case 'high': return 'bg-orange-100 text-orange-700 border-orange-200';
-    case 'medium': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
-    default: return 'bg-green-100 text-green-700 border-green-200';
+    case 'emergency': return 'bg-red-500/20 text-red-400 border-red-500/30';
+    case 'high': return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
+    case 'medium': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
+    default: return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
   }
 }
 
@@ -179,9 +178,9 @@ function getPriorityLabel(priority: LogEntry['priority']) {
 
 function getStatusStyle(status: LogEntry['status']) {
   switch (status) {
-    case 'resolved': return 'text-green-600';
-    case 'escalated': return 'text-orange-600';
-    default: return 'text-gray-500';
+    case 'resolved': return 'text-emerald-400';
+    case 'escalated': return 'text-orange-400';
+    default: return 'text-gray-400';
   }
 }
 
@@ -253,29 +252,50 @@ export default function DailyLogPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#0a0a0b] text-white relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-20 left-1/4 w-[500px] h-[500px] bg-violet-600/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-20 right-1/4 w-[400px] h-[400px] bg-fuchsia-600/15 rounded-full blur-[100px]" />
+      </div>
+
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10 print:hidden">
-        <div className="max-w-5xl mx-auto px-4 py-4">
+      <header className="sticky top-0 z-50 border-b border-white/10 backdrop-blur-xl bg-[#0a0a0b]/80 print:hidden">
+        <div className="max-w-6xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link href="/staff" className="p-2 -ml-2 text-gray-500 hover:text-gray-700">
+              <Link 
+                href="/staff" 
+                className="p-2 -ml-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+              >
                 <ArrowLeft className="h-5 w-5" />
               </Link>
               <div>
-                <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-blue-600" />
+                <h1 className="text-xl font-bold text-white flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500">
+                    <FileText className="h-4 w-4 text-white" />
+                  </div>
                   Tagesprotokoll
                 </h1>
-                <p className="text-sm text-gray-500">Dokumentation aller Anfragen</p>
+                <p className="text-sm text-gray-400">Dokumentation aller Anfragen</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" onClick={exportCSV}>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={exportCSV}
+                className="border-white/10 bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white"
+              >
                 <Download className="h-4 w-4 mr-2" />
                 Export CSV
               </Button>
-              <Button variant="outline" size="sm" onClick={handlePrint}>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handlePrint}
+                className="border-white/10 bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white"
+              >
                 <Printer className="h-4 w-4 mr-2" />
                 Drucken
               </Button>
@@ -284,29 +304,29 @@ export default function DailyLogPage() {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 py-6">
+      <main className="max-w-6xl mx-auto px-4 py-6 relative z-10">
         {/* Date Selector */}
-        <div className="bg-white rounded-xl border border-gray-200 p-4 mb-6 print:border-0 print:p-0 print:mb-4">
+        <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-4 mb-6 print:border-0 print:p-0 print:mb-4">
           <div className="flex items-center justify-between">
             <button
               onClick={() => changeDate(-1)}
-              className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg print:hidden"
+              className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors print:hidden"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
             <div className="text-center">
-              <div className="flex items-center justify-center gap-2 text-gray-900">
-                <Calendar className="h-5 w-5 text-blue-600 print:hidden" />
+              <div className="flex items-center justify-center gap-2 text-white">
+                <Calendar className="h-5 w-5 text-violet-400 print:hidden" />
                 <span className="font-semibold">{formatDate(selectedDate)}</span>
               </div>
               {selectedDate.toDateString() === new Date().toDateString() && (
-                <span className="text-xs text-blue-600 font-medium">Heute</span>
+                <span className="text-xs text-violet-400 font-medium">Heute</span>
               )}
             </div>
             <button
               onClick={() => changeDate(1)}
               disabled={selectedDate.toDateString() === new Date().toDateString()}
-              className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg disabled:opacity-30 print:hidden"
+              className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg disabled:opacity-30 transition-colors print:hidden"
             >
               <ChevronRight className="h-5 w-5" />
             </button>
@@ -315,54 +335,54 @@ export default function DailyLogPage() {
 
         {/* Stats Summary */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 print:grid-cols-4 print:gap-2 print:mb-4">
-          <div className="bg-white rounded-xl border border-gray-200 p-4 print:p-2 print:border-gray-300">
-            <p className="text-sm text-gray-500">Anfragen gesamt</p>
-            <p className="text-2xl font-bold text-gray-900 print:text-lg">{stats.total}</p>
+          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-4 print:p-2 print:border-gray-300 print:bg-white">
+            <p className="text-sm text-gray-400 print:text-gray-600">Anfragen gesamt</p>
+            <p className="text-2xl font-bold text-white print:text-lg print:text-gray-900">{stats.total}</p>
           </div>
-          <div className="bg-white rounded-xl border border-gray-200 p-4 print:p-2 print:border-gray-300">
-            <p className="text-sm text-gray-500">Ø Reaktionszeit</p>
-            <p className="text-2xl font-bold text-gray-900 print:text-lg">{stats.avgResponse} min</p>
+          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-4 print:p-2 print:border-gray-300 print:bg-white">
+            <p className="text-sm text-gray-400 print:text-gray-600">Ø Reaktionszeit</p>
+            <p className="text-2xl font-bold text-white print:text-lg print:text-gray-900">{stats.avgResponse} min</p>
           </div>
-          <div className="bg-white rounded-xl border border-gray-200 p-4 print:p-2 print:border-gray-300">
-            <p className="text-sm text-gray-500">Notfälle</p>
-            <p className="text-2xl font-bold text-red-600 print:text-lg">{stats.emergencies}</p>
+          <div className="rounded-2xl border border-red-500/30 bg-red-500/10 backdrop-blur-sm p-4 print:p-2 print:border-gray-300 print:bg-white">
+            <p className="text-sm text-gray-400 print:text-gray-600">Notfälle</p>
+            <p className="text-2xl font-bold text-red-400 print:text-lg print:text-red-600">{stats.emergencies}</p>
           </div>
-          <div className="bg-white rounded-xl border border-gray-200 p-4 print:p-2 print:border-gray-300">
-            <p className="text-sm text-gray-500">Eskaliert</p>
-            <p className="text-2xl font-bold text-orange-600 print:text-lg">{stats.escalated}</p>
+          <div className="rounded-2xl border border-orange-500/30 bg-orange-500/10 backdrop-blur-sm p-4 print:p-2 print:border-gray-300 print:bg-white">
+            <p className="text-sm text-gray-400 print:text-gray-600">Eskaliert</p>
+            <p className="text-2xl font-bold text-orange-400 print:text-lg print:text-orange-600">{stats.escalated}</p>
           </div>
         </div>
 
         {/* Log Table */}
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden print:border-gray-300">
+        <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden print:border-gray-300 print:bg-white">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200 print:bg-gray-100">
+              <thead className="border-b border-white/10 print:bg-gray-100 print:border-gray-300">
                 <tr>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-4 py-3">Zeit</th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-4 py-3">Bewohner</th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-4 py-3 hidden md:table-cell print:table-cell">Anfrage</th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-4 py-3">Priorität</th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-4 py-3 hidden sm:table-cell print:table-cell">Bearbeitet</th>
-                  <th className="text-left text-xs font-semibold text-gray-600 uppercase tracking-wider px-4 py-3">Status</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3 print:text-gray-600">Zeit</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3 print:text-gray-600">Bewohner</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3 hidden md:table-cell print:table-cell print:text-gray-600">Anfrage</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3 print:text-gray-600">Priorität</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3 hidden sm:table-cell print:table-cell print:text-gray-600">Bearbeitet</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3 print:text-gray-600">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-white/5 print:divide-gray-200">
                 {log.map((entry) => (
-                  <tr key={entry.id} className="hover:bg-gray-50 print:hover:bg-white">
+                  <tr key={entry.id} className="hover:bg-white/5 transition-colors print:hover:bg-white">
                     <td className="px-4 py-3">
-                      <span className="font-mono text-sm text-gray-900">{entry.time}</span>
+                      <span className="font-mono text-sm text-white print:text-gray-900">{entry.time}</span>
                     </td>
                     <td className="px-4 py-3">
                       <div>
-                        <p className="font-medium text-gray-900">{entry.resident}</p>
-                        <p className="text-xs text-gray-500">Zi. {entry.room}</p>
+                        <p className="font-medium text-white print:text-gray-900">{entry.resident}</p>
+                        <p className="text-xs text-gray-400 print:text-gray-600">Zi. {entry.room}</p>
                       </div>
                     </td>
                     <td className="px-4 py-3 hidden md:table-cell print:table-cell">
-                      <p className="text-sm text-gray-700">{entry.request}</p>
+                      <p className="text-sm text-gray-300 print:text-gray-700">{entry.request}</p>
                       {entry.notes && (
-                        <p className="text-xs text-gray-500 mt-1 italic">📝 {entry.notes}</p>
+                        <p className="text-xs text-gray-500 mt-1 italic print:text-gray-600">📝 {entry.notes}</p>
                       )}
                     </td>
                     <td className="px-4 py-3">
@@ -372,8 +392,8 @@ export default function DailyLogPage() {
                     </td>
                     <td className="px-4 py-3 hidden sm:table-cell print:table-cell">
                       <div>
-                        <p className="text-sm text-gray-700">{entry.handledBy}</p>
-                        <p className="text-xs text-gray-500">{entry.responseTime}</p>
+                        <p className="text-sm text-gray-300 print:text-gray-700">{entry.handledBy}</p>
+                        <p className="text-xs text-gray-500 print:text-gray-600">{entry.responseTime}</p>
                       </div>
                     </td>
                     <td className="px-4 py-3">
@@ -399,7 +419,7 @@ export default function DailyLogPage() {
         </div>
 
         {/* Footer Note */}
-        <p className="text-center text-sm text-gray-400 mt-6 print:hidden">
+        <p className="text-center text-sm text-gray-500 mt-6 print:hidden">
           Alle Zeiten in lokalem Format • Daten dienen der Dokumentation
         </p>
       </main>

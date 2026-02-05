@@ -1,12 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
@@ -14,11 +8,12 @@ import {
   Clock,
   CheckCircle,
   AlertTriangle,
-  User,
   Mic,
   Phone,
   Users,
   Activity,
+  Sparkles,
+  Zap,
 } from 'lucide-react';
 
 // Types
@@ -106,11 +101,18 @@ const DEMO_STATS = {
   staffOnDuty: 6,
 };
 
-function getPriorityColor(priority: number) {
-  if (priority >= 9) return 'bg-red-500 text-white border-red-600';
-  if (priority >= 7) return 'bg-orange-500 text-white border-orange-600';
-  if (priority >= 4) return 'bg-yellow-400 text-black border-yellow-500';
-  return 'bg-green-400 text-black border-green-500';
+function getPriorityGradient(priority: number) {
+  if (priority >= 9) return 'from-rose-500 to-red-600';
+  if (priority >= 7) return 'from-orange-500 to-amber-600';
+  if (priority >= 4) return 'from-yellow-500 to-amber-500';
+  return 'from-emerald-500 to-teal-600';
+}
+
+function getPriorityBorder(priority: number) {
+  if (priority >= 9) return 'border-l-rose-500';
+  if (priority >= 7) return 'border-l-orange-500';
+  if (priority >= 4) return 'border-l-yellow-500';
+  return 'border-l-emerald-500';
 }
 
 function getPriorityLabel(priority: number) {
@@ -120,11 +122,11 @@ function getPriorityLabel(priority: number) {
   return '🟢 NIEDRIG';
 }
 
-function getPriorityBorder(priority: number) {
-  if (priority >= 9) return 'border-l-4 border-l-red-500';
-  if (priority >= 7) return 'border-l-4 border-l-orange-500';
-  if (priority >= 4) return 'border-l-4 border-l-yellow-400';
-  return 'border-l-4 border-l-green-400';
+function getPriorityBadge(priority: number) {
+  if (priority >= 9) return 'bg-rose-500/20 text-rose-300 border-rose-500/30';
+  if (priority >= 7) return 'bg-orange-500/20 text-orange-300 border-orange-500/30';
+  if (priority >= 4) return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
+  return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
 }
 
 function timeAgo(date: Date) {
@@ -142,28 +144,29 @@ function RequestCard({ request, onAccept, onResolve }: {
   onResolve?: () => void;
 }) {
   return (
-    <Card className={`${getPriorityBorder(request.priority)} shadow-md hover:shadow-lg transition-shadow`}>
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-3">
-            <Avatar className="h-10 w-10">
-              <AvatarFallback className="bg-blue-100 text-blue-600">
+    <div className={`relative group border-l-4 ${getPriorityBorder(request.priority)}`}>
+      <div className="absolute -inset-0.5 bg-gradient-to-r from-white/5 to-transparent rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="relative p-4 rounded-r-xl bg-zinc-900/50 border border-white/10 border-l-0 backdrop-blur-sm hover:bg-zinc-900/70 transition-colors">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <Avatar className="h-10 w-10 border-2 border-white/10 flex-shrink-0">
+              <AvatarFallback className={`bg-gradient-to-br ${getPriorityGradient(request.priority)} text-white font-medium`}>
                 {request.resident.split(' ').map(n => n[0]).join('')}
               </AvatarFallback>
             </Avatar>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="font-semibold text-gray-900">{request.resident}</h3>
-                <span className="text-sm text-gray-500">Zimmer {request.room}</span>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-semibold text-white truncate">{request.resident}</h3>
+                <span className="text-sm text-zinc-500">Zimmer {request.room}</span>
               </div>
-              <p className="text-sm text-gray-600 mt-1">{request.aiSummary}</p>
+              <p className="text-sm text-zinc-400 mt-1">{request.aiSummary}</p>
             </div>
           </div>
-          <div className="flex flex-col items-end gap-2">
-            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(request.priority)}`}>
+          <div className="flex flex-col items-end gap-2 flex-shrink-0">
+            <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getPriorityBadge(request.priority)}`}>
               {getPriorityLabel(request.priority)}
             </span>
-            <span className="text-xs text-gray-500 flex items-center gap-1">
+            <span className="text-xs text-zinc-500 flex items-center gap-1">
               <Clock className="h-3 w-3" />
               vor {timeAgo(request.createdAt)}
             </span>
@@ -171,70 +174,88 @@ function RequestCard({ request, onAccept, onResolve }: {
         </div>
         
         {/* Transcript preview */}
-        <div className="mt-3 p-2 bg-gray-50 rounded-lg">
-          <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
+        <div className="mt-3 p-3 bg-white/5 rounded-lg border border-white/5">
+          <div className="flex items-center gap-2 text-xs text-zinc-500 mb-1">
             <Mic className="h-3 w-3" />
             <span>Sprachaufnahme</span>
           </div>
-          <p className="text-sm text-gray-700 italic">"{request.transcript}"</p>
+          <p className="text-sm text-zinc-300 italic">"{request.transcript}"</p>
         </div>
 
         {/* Actions */}
         <div className="mt-3 flex items-center justify-between">
           {request.status === 'pending' && (
             <div className="flex gap-2">
-              <Button size="sm" onClick={onAccept} className="bg-blue-600 hover:bg-blue-700">
+              <Button 
+                size="sm" 
+                onClick={onAccept} 
+                className="bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white border-0"
+              >
                 <CheckCircle className="h-4 w-4 mr-1" />
                 Übernehmen
               </Button>
-              <Button size="sm" variant="outline">
+              <Button 
+                size="sm" 
+                variant="outline"
+                className="border-white/10 text-zinc-300 hover:text-white hover:bg-white/5"
+              >
                 <Phone className="h-4 w-4 mr-1" />
                 Anrufen
               </Button>
             </div>
           )}
           {request.status === 'assigned' && (
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-blue-600">👤 {request.assignedTo}</span>
-              <Button size="sm" onClick={onResolve} variant="outline">
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-violet-400 flex items-center gap-1">
+                <Users className="h-4 w-4" />
+                {request.assignedTo}
+              </span>
+              <Button 
+                size="sm" 
+                onClick={onResolve} 
+                variant="outline"
+                className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10"
+              >
                 <CheckCircle className="h-4 w-4 mr-1" />
                 Erledigt
               </Button>
             </div>
           )}
           {request.status === 'resolved' && (
-            <div className="flex items-center gap-2 text-green-600">
+            <div className="flex items-center gap-2 text-emerald-400">
               <CheckCircle className="h-4 w-4" />
               <span className="text-sm">Erledigt von {request.resolvedBy}</span>
             </div>
           )}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
 
-function StatCard({ title, value, icon: Icon, trend }: {
+function StatCard({ title, value, icon: Icon, gradient, trend }: {
   title: string;
   value: string | number;
   icon: typeof Bell;
+  gradient: string;
   trend?: string;
 }) {
   return (
-    <Card>
-      <CardContent className="p-4">
+    <div className="relative group">
+      <div className={`absolute -inset-0.5 bg-gradient-to-r ${gradient} rounded-xl blur opacity-30 group-hover:opacity-50 transition-opacity`} />
+      <div className="relative p-4 rounded-xl bg-zinc-900/50 border border-white/10 backdrop-blur-sm">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-500">{title}</p>
-            <p className="text-2xl font-bold text-gray-900">{value}</p>
-            {trend && <p className="text-xs text-green-600">{trend}</p>}
+            <p className="text-sm text-zinc-400">{title}</p>
+            <p className="text-2xl font-bold text-white mt-1">{value}</p>
+            {trend && <p className="text-xs text-emerald-400 mt-1">{trend}</p>}
           </div>
-          <div className="p-3 bg-blue-100 rounded-full">
-            <Icon className="h-6 w-6 text-blue-600" />
+          <div className={`p-3 rounded-xl bg-gradient-to-br ${gradient}`}>
+            <Icon className="h-5 w-5 text-white" />
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
 
@@ -264,7 +285,6 @@ export default function RequestsDashboard() {
     }, 1500);
   };
 
-  // Auto-escalation visual (pulse effect on high priority)
   const pendingRequests = requests.filter(r => r.status === 'pending');
   const assignedRequests = requests.filter(r => r.status === 'assigned');
   const resolvedRequests = requests.filter(r => r.status === 'resolved');
@@ -272,19 +292,24 @@ export default function RequestsDashboard() {
   return (
     <div className="p-4 lg:p-8 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
-            Anfragen-Dashboard
-          </h1>
-          <p className="text-gray-500 mt-1">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-violet-500/20">
+              <Zap className="h-5 w-5 text-white" />
+            </div>
+            <h1 className="text-2xl lg:text-3xl font-bold text-white">
+              Anfragen-Dashboard
+            </h1>
+          </div>
+          <p className="text-zinc-400">
             KI-gestützte Priorisierung von Bewohner-Anfragen
           </p>
         </div>
         <Button 
           onClick={simulateNewRequest} 
           disabled={isSimulating}
-          className="bg-red-600 hover:bg-red-700"
+          className="bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white border-0 shadow-lg shadow-rose-500/20"
         >
           {isSimulating ? (
             <>
@@ -301,27 +326,31 @@ export default function RequestsDashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard 
           title="Aktive Anfragen" 
           value={pendingRequests.length + assignedRequests.length} 
           icon={Bell}
+          gradient="from-violet-500 to-fuchsia-600"
         />
         <StatCard 
           title="Ø Reaktionszeit" 
           value={`${DEMO_STATS.avgResponseTime} min`}
           icon={Clock}
+          gradient="from-emerald-500 to-teal-600"
           trend="↓ 23% vs. gestern"
         />
         <StatCard 
           title="Heute erledigt" 
           value={DEMO_STATS.resolvedToday} 
           icon={CheckCircle}
+          gradient="from-blue-500 to-cyan-600"
         />
         <StatCard 
           title="Personal im Dienst" 
           value={DEMO_STATS.staffOnDuty} 
           icon={Users}
+          gradient="from-amber-500 to-orange-600"
         />
       </div>
 
@@ -329,11 +358,14 @@ export default function RequestsDashboard() {
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Pending - Highest Priority */}
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
-            <h2 className="text-lg font-semibold text-gray-900">
-              Wartend ({pendingRequests.length})
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-3 h-3 rounded-full bg-rose-500 animate-pulse shadow-lg shadow-rose-500/50" />
+            <h2 className="text-lg font-semibold text-white">
+              Wartend
             </h2>
+            <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-white/10 text-zinc-300">
+              {pendingRequests.length}
+            </span>
           </div>
           <div className="space-y-4">
             {pendingRequests
@@ -354,21 +386,24 @@ export default function RequestsDashboard() {
                 />
               ))}
             {pendingRequests.length === 0 && (
-              <Card className="p-8 text-center text-gray-400">
-                <CheckCircle className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                <p>Keine wartenden Anfragen</p>
-              </Card>
+              <div className="p-8 rounded-xl bg-zinc-900/30 border border-white/5 text-center">
+                <CheckCircle className="h-12 w-12 mx-auto mb-2 text-zinc-600" />
+                <p className="text-zinc-500">Keine wartenden Anfragen</p>
+              </div>
             )}
           </div>
         </div>
 
         {/* Assigned / In Progress */}
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-            <h2 className="text-lg font-semibold text-gray-900">
-              In Bearbeitung ({assignedRequests.length})
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-3 h-3 rounded-full bg-violet-500 shadow-lg shadow-violet-500/50" />
+            <h2 className="text-lg font-semibold text-white">
+              In Bearbeitung
             </h2>
+            <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-white/10 text-zinc-300">
+              {assignedRequests.length}
+            </span>
           </div>
           <div className="space-y-4">
             {assignedRequests.map(request => (
@@ -387,43 +422,46 @@ export default function RequestsDashboard() {
               />
             ))}
             {assignedRequests.length === 0 && (
-              <Card className="p-8 text-center text-gray-400">
-                <Activity className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                <p>Keine Anfragen in Bearbeitung</p>
-              </Card>
+              <div className="p-8 rounded-xl bg-zinc-900/30 border border-white/5 text-center">
+                <Activity className="h-12 w-12 mx-auto mb-2 text-zinc-600" />
+                <p className="text-zinc-500">Keine Anfragen in Bearbeitung</p>
+              </div>
             )}
           </div>
         </div>
 
         {/* Resolved */}
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            <h2 className="text-lg font-semibold text-gray-900">
-              Erledigt ({resolvedRequests.length})
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-3 h-3 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50" />
+            <h2 className="text-lg font-semibold text-white">
+              Erledigt
             </h2>
+            <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-white/10 text-zinc-300">
+              {resolvedRequests.length}
+            </span>
           </div>
           <div className="space-y-4">
             {resolvedRequests.map(request => (
               <RequestCard key={request.id} request={request} />
             ))}
             {resolvedRequests.length === 0 && (
-              <Card className="p-8 text-center text-gray-400">
-                <CheckCircle className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                <p>Noch keine erledigten Anfragen</p>
-              </Card>
+              <div className="p-8 rounded-xl bg-zinc-900/30 border border-white/5 text-center">
+                <CheckCircle className="h-12 w-12 mx-auto mb-2 text-zinc-600" />
+                <p className="text-zinc-500">Noch keine erledigten Anfragen</p>
+              </div>
             )}
           </div>
         </div>
       </div>
 
       {/* Footer - Demo Info */}
-      <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
+      <div className="mt-8 p-4 rounded-xl bg-violet-500/10 border border-violet-500/20 backdrop-blur-sm">
         <div className="flex items-start gap-3">
-          <AlertTriangle className="h-5 w-5 text-blue-600 mt-0.5" />
+          <Sparkles className="h-5 w-5 text-violet-400 mt-0.5 flex-shrink-0" />
           <div>
-            <h3 className="font-medium text-blue-900">Demo-Modus</h3>
-            <p className="text-sm text-blue-700 mt-1">
+            <h3 className="font-medium text-violet-300">Demo-Modus</h3>
+            <p className="text-sm text-violet-300/70 mt-1">
               Dies ist eine Demo mit Beispieldaten. In der echten App werden Anfragen von 
               Smartwatches der Bewohner empfangen, von Gemini AI priorisiert und als 
               Push-Benachrichtigungen an Pflegekräfte gesendet.
